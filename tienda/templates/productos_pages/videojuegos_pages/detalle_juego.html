@@ -1,0 +1,71 @@
+{% extends 'layout/base.html' %}
+{% load custom_filters %}
+{% load static %}
+
+{% block titulo %}<title>{{juego.nombre}}</title>{% endblock %}
+
+{% block css%}
+    <link rel="stylesheet" href="{% static 'estilos/tienda.css' %}"> 
+    <!-- Agregamos la libreria Toastify -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <!----------------------->
+{% endblock%}
+
+{% block contenido %}
+    <div class="container-detalles_producto">
+        <div class="wrapper">
+            <div class="producto-box">
+                <div class="imagenes">
+                    <div class="small-imagenes">
+                        <img src="{{juego.imagen_principal.url}}"  onclick="clickImg(this)">
+                        {% for img in juego.imagenes_secundarias.all %} <!-- Recorremos todos los imagenes secundarias asociadas a este producto -->
+                        <img src="{{img.imagen.url}}" onclick="clickImg(this)">
+                        {% endfor %}
+                    </div>
+                    <div class="main-imagen">
+                        <img src="{{juego.imagen_principal.url}}" alt="imagen de {{juego.nombre}}" id="imagenbox">
+                    </div>
+                </div>
+            </div>
+            <div class="texto">
+                <div class="contenido">
+                    <p class="marca">Marca: {{juego.modelo.marca}}</p>
+                    <h2>{{juego.nombre}}</h2>
+                    <p class="precio">$ {{juego.precio |punto_miles}}</p>
+                    <p>{{juego.descripcion}}</p>
+                    <div class="caracteristicas">
+                        <p><strong>Formato:</strong> {{juego.get_formato_display }}</p>  <!-- get_<field_name>_display es un método generado automáticamente por Django que devuelve el valor legible de formato basado en las opciones definidas en <FIELD_NAME>_CHOICES -->
+                        <p><strong>Garantia:</strong> {{juego.garantia}}</p>
+                        <p><strong>Stock:</strong> {{juego.stock}}</p>
+                        <p><strong>Fecha de Lanzamiento:</strong> {{juego.fecha_lanzamiento}}</p>
+                        <p><strong>Modelo:</strong> {{juego.modelo}}</p>
+                        <p><strong>Empresa:</strong> {{juego.modelo.marca.empresa}}</p>
+                        <p><strong>Plataforma:</strong> {{juego.plataforma}}</p>
+                        <p><strong>Edición:</strong> {{juego.edicion}}</p>
+                        <p><strong>Tamaño del juego:</strong> {{juego.tamaño_juego}}</p>
+                        <p><strong>Clasificación de edad:</strong> {{juego.clasificacion_edad}}</p>
+                        <p><strong>Géneros:</strong> 
+                            {% for genero in juego.generos.all %} <!-- Recorremos todos los generos asociasdos al juego-->
+                                {{genero.nombre}} 
+                                {% if not forloop.last %}  <!-- Sí no es la ultima vuelta del For poné una coma-->
+                                    , 
+                                {% endif %} 
+                            {% endfor %}
+                        </p>
+                    </div>
+                    <div class="btns-detalle_producto">
+                        <button id="btn-agregar-carrito" class="btn-detalle_producto" data-modelo="{{ juego.modelo_name }}" data-id="{{ juego.id }}"><i class="fas fa-cart-plus"></i> Añadir al carrito</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}
+
+{% block scripts_js %}    <script src="{% static 'js/scripts_generales.js' %}"></script>  {% endblock %}
+
+
+

@@ -1,0 +1,76 @@
+{% extends 'layout/base.html' %}
+{% load custom_filters %}
+{% load static %}
+
+{% block css%}
+    <link rel="stylesheet" href="{% static 'estilos/tienda.css' %}"> 
+    <!-- Agregamos la libreria Toastify -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <!----------------------->
+{% endblock%}
+
+{% block titulo %}<title>{{accesorioPC.nombre}}</title>{% endblock %}
+
+
+{% block contenido %}
+
+    <div class="container-detalles_producto">
+        <div class="wrapper">
+            <div class="producto-box">
+                <div class="imagenes">
+                    <div class="small-imagenes">
+                        <img src="{{accesorioPC.imagen_principal.url}}"  onclick="clickImg(this)">
+                        {% for img in accesorioPC.imagenes_secundarias.all %} <!-- Recorremos todos los imagenes secundarias asociadas a este producto -->
+                        <img src="{{img.imagen.url}}" onclick="clickImg(this)">
+                        {% endfor %}
+                    </div>
+                    <div class="main-imagen">
+                        <img src="{{accesorioPC.imagen_principal.url}}" alt="imagen de {{accesorioPC.nombre}}" id="imagenbox">
+                    </div>
+                </div>
+            </div>
+            <div class="texto">
+                <div class="contenido">
+                    <p class="marca">Marca: {{accesorioPC.modelo.marca}}</p>
+                    <h2>{{accesorioPC.nombre}}</h2>
+                    <p class="precio">$ {{accesorioPC.precio |punto_miles}}</p>
+                    <p>{{accesorioPC.descripcion}}</p>
+                    <div class="caracteristicas">
+                        <p><strong>Garantia:</strong> {{accesorioPC.garantia}}</p>
+                        <p><strong>Stock:</strong> {{accesorioPC.stock}}</p>
+                        <p><strong>Fecha de Lanzamiento:</strong> {{accesorioPC.fecha_lanzamiento}}</p>
+                        <p><strong>Tipo:</strong> {{accesorioPC.get_tipo_display}}</p>
+                        <p><strong>Color:</strong> {{accesorioPC.color}}</p>
+                        <p><strong>Modelo:</strong> {{accesorioPC.modelo}}</p>
+                        <p><strong>Empresa:</strong> {{accesorioPC.modelo.marca.empresa}}</p>
+                        {% if accesorioPC.rgb %}<p> <strong>Con RGB:</strong> Sí </p>{% endif %}
+                        <p><strong>Conexiones:</strong>
+                            {% for conexion in accesorioPC.conexiones.all %}
+                                {{conexion.tipo}}
+                                {% if not forloop.last %}  <!-- Sí no es la ultima vuelta del For poné una coma-->
+                                ,    
+                                {% endif %} 
+                            {% endfor %}
+                        </p>
+                        <p><strong>Compatibilidad:</strong> {{accesorioPC.compatibilidad}}</p>
+                        {% if accesorioPC.inalambrico %} <p> <strong>Es inalambrico:</strong> Sí </p>{% endif %}
+                        {% if accesorioPC.bateria %} <p><strong>Batería: </strong>{{accesorioPC.bateria}} </p>{% endif %}
+                        {% if accesorioPC.tiempo_bateria %}<p> <strong>Duracion de la batería:</strong> {{accesorioPC.tiempo_bateria}} </p>{% endif %}
+                        <p><strong>Peso:</strong> {{accesorioPC.peso}}</p>
+                        {% if accesorioPC.microfono_integrado %}<p> <strong>Micrófono integrados:</strong> Sí </p>{% endif %}
+                        {% if accesorioPC.dimensiones %}<p> <strong>Dimensiones:</strong> {{accesorioPC.dimensiones}} </p>{% endif %}
+                        {% if accesorioPC.resolucion %}<p> <strong>Resolución:</strong> {{accesorioPC.resolucion}} </p>{% endif %}
+                    </div>
+                    <div class="btns-detalle_producto">
+                        <button id="btn-agregar-carrito" class="btn-detalle_producto" data-modelo="{{ accesorioPC.modelo_name }}" data-id="{{ accesorioPC.id }}"><i class="fas fa-cart-plus"></i> Añadir al carrito</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+{% endblock %}
+{% block scripts_js %}    <script src="{% static 'js/scripts_generales.js' %}"></script>  {% endblock %}

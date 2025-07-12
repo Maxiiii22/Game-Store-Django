@@ -1,0 +1,139 @@
+{% extends 'layout/base.html' %}
+{% load static %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'estilos/usuarios.css' %}"> 
+{% endblock %}
+
+{% block titulo %} 
+    <title>Mi cuenta</title>
+{% endblock %}
+
+{% block contenido %}
+    <div class="container-cuenta">
+        <div class="mis-datos">
+            <div class="datos-tlt">
+                <h2>Mis Datos</h2>
+            </div>
+            <div class="datos-box">
+                <div class="datos-campos">
+                    <label for="username">
+                        Nombre de usuario:
+                        <input  class="datos-campos_input" id="username" type="text" value="{{user.username}}" readonly> <i class="fas fa-pen icon-edit"></i>
+                    </label>
+                </div>
+                <div class="datos-campos">
+                    <label for="email">
+                        Correo electronico:
+                        <input class="datos-campos_input" id="email" type="email" value="{{user.email}}" readonly> <i class="fas fa-pen icon-edit"></i>
+                    </label>
+                </div>
+                <div class="datos-campos">
+                    <label for="password">
+                        Contraseña:
+                        <input class="datos-campos_input" id="password" type="password" value="..........." readonly> <i class="fas fa-pen icon-edit"></i>
+                    </label>
+                </div>
+                <div class="datos-campos">
+                    <label for="first_name">
+                        Nombre:
+                        <input class="datos-campos_input" id="first_name" type="text" value="{{user.first_name}}" readonly > <i class="fas fa-pen icon-edit"></i>
+                    </label>
+                </div>
+                <div class="datos-campos">
+                    <label for="last_name">
+                        Apellido:
+                        <input class="datos-campos_input" id="last_name" type="text" value="{{user.last_name}}" readonly> <i class="fas fa-pen icon-edit"></i>
+                    </label>
+                </div>    
+                <div class="datos-campos">
+                    <label for="fecha_nacimiento">
+                        Fecha de nacimiento:
+                        <input class="datos-campos_input" id="fecha_nacimiento" type="text" value="{{user.fecha_nacimiento}}" readonly> <i class="fas fa-pen icon-edit"></i>
+                    </label> 
+                </div> 
+                <div class="datos-campos">
+                    <label for="cod_area">
+                        Código de área :
+                        <input class="datos-campos_input" id="cod_area" type="text" value="{{user.cod_area}}" readonly> <i class="fas fa-pen icon-edit"></i> 
+                    </label>
+                </div> 
+                <div class="datos-campos">
+                    <label for="telefono">
+                        Telefono:
+                        <input class="datos-campos_input" id="telefono" type="text" value="{{user.telefono}}" readonly > <i class="fas fa-pen icon-edit"></i>
+                    </label>  
+                </div>             
+            </div>
+        </div>
+    </div>
+
+
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+        <span id="closeEditModal" class="close">&times;</span>
+        <h2 id="modal-title">Editar</h2>
+        <form id="editForm" method="POST" action="{% url 'cuenta' %}">
+            {% csrf_token %}
+            <input type="hidden" name="nombre_campo" id="modalField" />
+            <p id="inputFeedback"></p> 
+    
+            {{form.cod_area}}
+
+            <button type="submit" class="btn-guardar">Guardar</button>
+        </form>
+        </div>
+    </div>
+
+    {% if abrir_modal %}  <!-- Si alguien pasa la validacion GET y se envia el form , el backend detecta el error , renderiza el error y abre el modal automaticamente al recargarse la pagina-->
+    {{ opciones_cod_area|json_script:"codAreaOpciones" }} <!-- json_script es un metodo que Convierte un objeto Python (lista, diccionario, etc.) en una cadena JSON válida
+                                                                y la inserta en un <script type="application/json">, que no se ejecuta pero puede ser leído con JavaScript.-->
+    <script>
+        window.modalData = {
+            campo_modal: "{{ campo_modal }}",
+            error: "{{ error }}",
+            campo_valor: "{{ campo_valor }}",
+            campo_valor_password: "{{ campo_valor_password|default:'' }}",
+            error_new_password: "{{ error_new_password|yesno:'true,false' }}",
+            opciones_cod_area: JSON.parse(document.getElementById("codAreaOpciones").textContent)
+        };
+  
+    //     else if ("{{ campo_modal }}" === "password") {
+    //         document.getElementById("modal-title").textContent = "Editar Contraseña:";
+    //         inputModal.type = "password";
+    //         inputModal.placeholder = "Ingrese su contraseña actual";
+
+    //         inputNewPassword = document.createElement("input");
+    //         inputNewPassword.type = "password";
+    //         inputNewPassword.id = "newPassword";
+    //         inputNewPassword.name = "new_password";
+    //         inputNewPassword.className = "modal-input";
+    //         inputNewPassword.placeholder = "Ingrese la nueva contraseña";
+    //         inputNewPassword.value = "{{ campo_valor_password}}";  
+    //         inputNewPassword.required = true;
+
+    //         if(inputNewPassword){
+    //             editForm.insertBefore(inputNewPassword, editForm.children[4]);          
+    //             console.log("ingreso en inputPassword")                 
+    //             inputNewPassword.addEventListener("input", () => {
+    //                 inputFeedback.textContent = "";
+    //                 inputModal.classList.remove('error');
+    //         });
+    //         }   
+    //   
+    //     if("{{error_newPassword}}"){
+    //         inputNewPassword.classList.add('error');
+    //     }
+    //     else{
+    //         inputModal.classList.add('error');
+    //     }
+
+    // });
+    </script>
+    {% endif %}
+    
+
+    
+{% endblock %}
+
+{% block scripts_js %} <script src="{% static 'js/perfil-usuario.js' %}"></script> {% endblock %}

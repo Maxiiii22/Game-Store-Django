@@ -1,0 +1,175 @@
+{% extends 'layout/base.html' %}
+{% load static %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'estilos/usuarios.css' %}"> 
+{% endblock %}
+
+{% block titulo %}
+<title>Registrarse</title>
+{% endblock %}
+
+{% block contenido %}
+    <div class="container-form">
+
+        {% if messages %}
+            <ul class="form-error">
+                {% for message in messages %}
+                    <li class="{{ message.tags }}">{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+        <div class="form-box form-box-signup">
+            <div class="forms-box-title">
+                <h2>Registrarse</h2>
+            </div>
+
+            <form method="POST" id="form-signup">
+                {% csrf_token %}
+
+                <!-- Paso 1: Datos básicos -->
+                <div class="form-step" id="step1">
+                    <h2>Paso 1: Crear cuenta</h2>
+
+                    <div class="input-form-box">
+                        <label for="id_username">Nombre de usuario:</label>
+                        {{ form.username }}
+                        {% if form.username.errors %}
+                            <ul class="form-errors">
+                                {% for error in form.username.errors %}
+                                    <li>{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                        <small id="usernameFeedback"></small>
+                    </div>
+
+                    <div class="input-form-box">
+                        <label for="id_email">Correo electrónico:</label>
+                        {{ form.email }}
+                        {% if form.email.errors %}
+                            <ul class="form-errors">
+                                {% for error in form.email.errors %}
+                                    <li>{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                        <small id="emailFeedback"></small>
+                    </div>
+
+                    <div class="input-form-box">
+                        <label for="id_password">Contraseña:</label>
+                        {{ form.password }}
+                        {% if form.password.errors %}
+                            <ul class="form-errors">
+                                {% for error in form.password.errors %}
+                                    <li>{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                        <small id="passwordFeedback"></small>
+                    </div>
+
+                    <div class="input-form-box">
+                        <label for="id_area">Código de área de tu teléfono:</label>
+                        {{ form.cod_area }}
+                        {% if form.cod_area.errors %}
+                            <ul class="form-errors">
+                                {% for error in form.cod_area.errors %}
+                                    <li>{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-btns">
+                        <button class="form-btn-signup" id="btn-siguiente-step1" disabled type="button" onclick="nextStep(1)">Siguiente</button>
+                    </div>
+                </div>
+
+                <!-- Paso 2: Información personal -->
+                <div class="form-step" id="step2">
+                    <h2>Paso 2: Información personal</h2>
+
+                    <div class="input-form-box">
+                        <label for="id_nacimiento">Fecha de nacimiento:</label>
+                        {{ form.fecha_nacimiento }}
+                        {% if form.fecha_nacimiento.errors %}
+                            <ul class="form-errors">
+                                {% for error in form.fecha_nacimiento.errors %}
+                                    <li>{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                        <small id="nacimientoFeedback"></small>
+                    </div>
+
+                    <div class="input-form-box">
+                        <label for="id_first_name">Nombre:</label>
+                        {{ form.first_name }}
+                        {% if form.first_name.errors %}
+                            <ul class="form-errors">
+                                {% for error in form.first_name.errors %}
+                                    <li>{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                        <small id="nombreFeedback"></small>
+                    </div>
+
+                    <div class="input-form-box">
+                        <label for="id_last_name">Apellido:</label>
+                        {{ form.last_name }}
+                        {% if form.last_name.errors %}
+                            <ul class="form-errors">
+                                {% for error in form.last_name.errors %}
+                                    <li>{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                        <small id="apellidoFeedback"></small>
+                    </div>
+
+                    <div class="input-form-box box-telefono">
+                        <label for="id_telefono">Teléfono:</label>
+                        {{ form.telefono }}
+                        {% if form.telefono.errors %}
+                            <ul class="form-errors">
+                                {% for error in form.telefono.errors %}
+                                    <li>{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                        <span id="codigo_area"></span>
+                        <small id="telefonoFeedback"></small>
+                    </div>
+
+                    <div class="form-btns">
+                        <button class="form-btn-signup" type="button" onclick="prevStep(2)">Anterior</button>
+                        <button class="form-btn-signup" id="btn-siguiente-step2" disabled type="button" onclick="nextStep(2)">Siguiente</button>
+                    </div>
+                </div>
+
+                <!-- Paso 3: Confirmación -->
+                <div class="form-step" id="step3">
+                    <h2>Paso 3: Aceptación de términos</h2>
+                    <label class="chkbox-signup">
+                        <input type="checkbox" id="terms" name="terms" required>
+                        Acepto los <a href="#">Términos y condiciones</a> y la <a href="#">Política de privacidad</a>.
+                    </label>
+
+                    <div class="form-btns">
+                        <button class="form-btn-signup" type="button" onclick="prevStep(3)">Anterior</button>
+                        <button class="form-btn-signup" id="btn-registro" type="submit" disabled>Registrar cuenta</button>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts_js %}
+<script src="{% static 'js/forms.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,1016 @@
+html{
+  height: 100%;
+}
+
+body{
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+main{
+  flex: 1;
+}
+
+
+.container-main{
+  padding-bottom: 50px ;
+}
+
+.barra-noticias{
+  display: block;
+}
+
+
+/* --------------------- Carrusel Productos ------------------------- */
+
+.container-productos{
+  width: 100% ;
+  max-width: 100dvw;
+  height: calc(100dvh - 78px);
+  position: relative;
+  overflow: hidden;
+  padding: 10px;
+}
+
+.carrusel-productos{
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  display: flex;
+  transition: 1s;
+  z-index: 5;
+}
+
+.carrusel-productos-items{
+  width: 100dvw;
+  max-width: 100dvw;
+  background-color: #fff;
+}
+
+.contenido-producto{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+}
+
+.carrusel-img-productos {
+  display: flex;
+  flex: 0 0 90%;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+}
+
+.box-imagen{
+  width: 500px;
+  height: 520px;
+}
+
+.box-imagen img{
+  height: 100%;
+  width: 100%;
+  object-fit: contain;
+}
+
+.carrusel-info-productos{
+  background-color: #000000;
+  background-image: var(--color-3);  
+  display: flex;
+  flex: 0 0 10%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.carrusel-nombre-producto, .carrusel-precio-producto{
+  font-size: clamp( 1rem, 4vw, 1.3rem);
+  text-align: center;
+  color: white;
+}
+
+.carrusel-precio-producto{
+  font-weight: 900;
+}
+
+
+.carrusel-productos-btns{
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.carrusel-productos-btns button{
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: #000;
+  color: #fff;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 1rem;
+  z-index: 6;
+}
+
+.puntos{
+  color: #fff;
+  display: flex;
+  position: absolute;
+  width: 100%;
+  justify-content: center;
+  top: 0;
+  z-index: 6;
+}
+
+.puntos li{
+  list-style: none;
+  width: 10px;
+  height: 10px;
+  background-color: #000;
+  margin: 0 7px;
+  border-radius: 20px;
+  transition: 1s;
+}
+
+.puntos li.active{
+  width: 30px;
+}
+
+/* --------------------- Fin Carrusel Productos ------------------------- */
+
+/* --------------------- Card Relojes ------------------------- */
+
+.container-relojes{
+  display: grid;
+  place-items: center;
+  margin-inline: 1.5rem;
+  align-content: center;
+  padding-block: 2rem;
+  justify-content: center;
+}
+
+#tlt-container-relojes{
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding-inline: 5px;
+  border-bottom: 2px solid #ccc;
+  font-size: clamp(.67rem, 3vw, 1.3rem);
+  text-wrap: pretty;
+  align-items: center;
+  gap: 30px;
+}
+
+.card-relojes{
+  display: grid;
+  gap: 4.5rem;
+}
+
+.card-reloj_article{
+  position: relative;
+  overflow: hidden;
+  border-radius: 1.5rem;
+  box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.75);
+  background-color: #fff;
+}
+
+.img-reloj{
+  width: 290px;
+  border-radius: 1.5rem;
+}
+
+.card-reloj_info{
+  width: 250px;
+  background-color: #000000;
+  background-image: var(--color-2);  
+  padding: 1.5rem 1rem; 
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  border-radius: 1rem;
+  position: absolute;
+  bottom: -9rem;
+  left: 0;
+  right: 0;
+  margin-inline: auto;
+  transition: opacity 1s 1s; 
+}
+
+.nombre-reloj{
+  color: #fff;
+  font-weight: 500;
+  margin-bottom: .75rem;
+}
+
+.precio-reloj{
+  color: #fff;
+  font-size: 1.2rem;
+  font-weight: 900;
+}
+
+.card-reloj_article:hover .card-reloj_info{
+  animation: mostrar-info 1s forwards;
+  opacity: 1;
+  transition: opacity .3s;
+}
+
+.card-reloj_article:hover{
+  animation:  remove-overflow 2s forwards;
+
+}
+
+.card-reloj_article:not(:hover){
+  animation: show-overflow 2s forwards;
+}
+
+.card-reloj_article:not(:hover) .card-reloj_info{
+  animation: remove-info 1s forwards;
+}
+
+
+@keyframes mostrar-info {
+  50%{
+    transform: translateY(-10rem);
+  }
+  100%{
+    transform: translateY(-7rem);
+  }
+}
+
+@keyframes remove-overflow {
+  to{
+    overflow: initial;
+  }
+}
+
+
+@keyframes remove-info {
+  0%{
+    transform: translateY(-7rem);
+  }
+  50%{
+    transform: translateY(-10rem);
+  }
+  100%{
+    transform: translateY(.5rem);
+  }
+}
+
+@keyframes show-overflow {
+  0%{
+    overflow: initial;
+    pointer-events: none;
+  }
+  50%{
+    overflow: hidden;
+  }
+}
+
+
+/* --------------------- Fin Card Relojes ------------------------- */
+
+/* --------------------- Card Videojuegos y Celulares ------------------------- */
+
+.container-juegos{
+  padding-block: 2rem;
+}
+
+.container-juegos, .container-celulares {
+  display: grid;
+  place-items: center;
+  margin-inline: 1.5rem;
+  align-content: center;
+  overflow-x: hidden;
+  justify-content: center;
+}
+
+#tlt-container-juegos,#tlt-container-celulares{
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding-inline: 5px;
+  border-bottom: 2px solid #ccc;
+  font-size: clamp(.73rem, 3vw, 1.3rem);
+  text-wrap: pretty;
+  align-items: center;
+}
+
+.ver-todos{
+  text-wrap: nowrap;
+}
+
+.ver-todos a{
+  color: #000;
+  transition: all .2s ;
+}
+
+.ver-todos a:hover{
+  font-weight: bold;
+}
+
+.carrusel-juegos-wrapper, .carrusel-celulares-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  max-width: 100%;
+}
+
+.btns-carrusels{
+  position: absolute;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding-left: 10px;
+  padding-right: 12px;}
+
+.btn-carrusel {
+  background-color: #000;
+  z-index: 1;
+  border: none;
+  color: white;
+  font-size: 15px;
+  padding: 10px;
+  cursor: pointer;
+  border-radius: 50%;
+  width: 38px;
+
+}
+
+.carrusel-juegos, .carrusel-celulares {
+  display: flex;
+  transition: transform 0.4s ease-in-out;
+  gap: 20.5px;
+  will-change: transform;
+  width: 100%;
+  padding-inline: 5px;
+}
+
+.card-juego, .card-celu {
+  flex: 0 0 calc(19.7% - 13px); /* 4 por fila con espacio entre ellos */
+  border-radius: 10px;
+  overflow: hidden;
+  background-color: #000000;
+  background-image: var(--color-2);  
+  border: 2px solid transparent;
+  transition: 0.2s ease;
+  width: 105px;
+}
+
+.card-juego:hover, .card-celu:hover {
+  border-color: #48e;
+}
+
+.card-juego_info, .card-celular_info {
+  text-align: center;
+  padding: 10px 0;
+}
+
+.nombre-juego, .nombre-celular{
+  color: #fff;
+  font-size: clamp(1.1rem, 3vw, 1.3rem);
+  font-weight: 500;
+  margin-bottom: .75rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* Limita el texto a 2 líneas */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis; /* Muestra "..." cuando el texto sobrepasa el límite */
+}
+
+.precio-juego, .precio-celular{
+  color: #fff;
+  font-size: 1.2rem;
+  font-weight: 900;
+}
+
+.img-juego, .img-celular {
+  width: 100%;
+  object-fit: contain;  
+}
+
+
+/* --------------------- Fin Card Videojuegos y Celulares ------------------------- */
+
+
+
+/* ------------------- Grilla Productos --------------------------------*/
+
+.noProductos{
+  display: flex;
+  align-items: center;
+  font-size: 1.5rem;
+}
+
+.productos{
+  display: grid;
+  height: 100%;
+  justify-content: center;
+  justify-items: center;
+}
+
+.container-card-productos{
+  padding: 35px 0;
+  width: clamp(300px, 97dvw, 1500px);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+}
+
+.container-filtros{
+  background: #000;
+  background-image: var(--color-3);
+  box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.7);
+  border-radius: 20px;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
+  color: #fff;
+  gap: 5px;
+}
+
+.box-filtros{
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;  
+}
+
+.filtro select{
+  border-radius: 5px;
+  width: 237px;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+  padding: 5px;
+  font-size: 15px;
+  background-color: #fff;
+  color: #000;
+  transition: all 3s;
+}
+
+.filtro select,
+::picker(select){
+  appearance: base-select;
+  margin-top: 5px;
+  border-radius: 5px;
+}
+
+.filtro select option{
+  padding: 5px;
+  outline: 1px solid #eee;
+}
+
+.box-marcas{
+  display: flex;
+  gap: 5px;
+  overflow-x: auto;
+  padding: 10px 5px;
+  max-width: 1214px;
+  width: 100%;
+  justify-content: center;
+}
+
+.box-marcas::-webkit-scrollbar{
+  height: 0px;
+}
+
+.box-marcas::-webkit-scrollbar-thumb {
+  background-color: #000;
+  border-radius: 10px;
+}
+
+.marca-producto{
+  background: white;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  padding-inline: 5px;
+  min-width: fit-content;
+  width: 140px;
+  justify-content: space-evenly;
+  height: 40px;
+  cursor: pointer;
+  outline: 2px solid transparent;
+  transition: outline-color .4s ;
+  color: #000;
+  position: relative;
+}
+
+.marca-producto::after{
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -10px;
+    width: 100%;
+    height: 1px;
+    background-color: #fff;
+    transform: scaleX(0);
+    transform-origin:  bottom right;
+    transition: transform 0.6s ease-out;
+}
+
+.marca-producto:hover::after{
+    transform: scaleX(1);
+    transform-origin: bottom left;
+}
+
+.active-marca-producto::after{
+  transform: scaleX(1);
+  transform-origin: bottom left;
+}
+
+.marca-producto figure{
+  height: clamp(30px, 6vw, 40px);
+  width: clamp(30px, 6vw, 40px);
+}
+
+.marca-producto img{
+  height: 100%;
+  width: 100%;
+  object-fit: contain;
+}
+
+.box-limpiar-filtros{
+  padding: 5px;
+}
+
+.btn-limpiar-filtros{
+  background: #fff;
+  padding: 3px;
+  border-radius: 5px;
+  color: #000;
+}
+
+.card-productos{
+  display: grid;
+  gap: 2.5rem;
+  grid-template-columns: repeat(4, 1fr);
+  width: 100%;
+}
+
+.card-producto_article{
+  background-color: #000008;
+  background-image: var(--color-2);
+  box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.7);
+  border-radius: 20px;
+  transition: 1s ease;
+  overflow: hidden;
+  position: relative;
+}
+
+.card-producto_article:hover{
+  box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.75), 5px 5px 20px rgba(0, 0, 0, 0.75), 5px 5px 20px rgba(0, 0, 0, 0.75) ;
+}
+
+.img-producto:hover{
+  transform: scale(1);
+}
+
+.card-producto_article figure{
+  height: 300px;
+  background-color: #fff;
+  border-radius: 20px 20px 3px 3px;
+}
+
+.img-producto{
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 20px;
+  transform: scale(.8);
+  transition: 1s ease;
+}
+
+.card-producto_info{
+  padding: 15px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.nombre-producto{
+  color: #fff;
+  font-size: clamp(1.1rem, 3vw, 1.3rem);
+  font-weight: 500;
+  display: -webkit-box;
+  -webkit-line-clamp: 3; /* Limita el texto a 3 líneas */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis; /* Muestra "..." cuando el texto sobrepasa el límite */
+}
+
+.precio-producto{
+  color: #fff;
+  font-size: clamp(1.1rem, 3vw, 1.3rem);
+  font-weight: 900;
+}
+
+.btn-agregar-carrito{
+  border: none;
+  border-radius: 20px;
+  padding: .50rem;
+  background-color: #fff;
+  outline: 2px solid white; 
+  color: #000;
+  cursor: pointer;
+  position: absolute;
+  top: 7px;
+  right: 12px;
+  outline-color: #000;
+  z-index: 1;
+  transition: all .6s ease;
+}
+
+.btn-agregar-carrito:hover{
+  outline-color: #48e;
+}
+
+.pagination{
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.step-links{
+  padding: 20px 0;
+}
+
+.pagination .step-links a,
+.pagination .step-links span.current {
+  padding: 8px 12px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  color: #000;
+  background-color: #fff;
+}
+
+.pagination .step-links a:hover {
+    background-color: #000;
+}
+
+.pagination .step-links span.current {
+    background-color: #000;
+    color: white;
+    font-weight: bold;
+    cursor: default;
+}
+
+
+/* ------------------- Fin Grilla Productos --------------------------------*/
+
+
+
+
+/* --------------------- Detalles del producto ------------------------- */
+
+.container-detalles_producto{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.wrapper{
+  width: clamp(304px, 95%, 1593px);
+  min-height: 600px;
+  display: flex;
+  justify-content: center;
+  column-gap: 20px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5),0 8px 24px rgba(0, 0, 0, 0.5);
+  border-radius: 20px;
+  align-items: center;
+  margin: 20px 0;
+  background-color: #fff;
+}
+
+.producto-box{
+  padding: 10px 0;
+  height: 100%;
+}
+
+.imagenes{
+  height: 100%;
+  display: flex;
+}
+
+.small-imagenes{
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 30px;
+}
+
+.small-imagenes img{
+  object-fit: contain;
+  width: 88px;
+  height: 90px;
+  cursor: pointer;
+  border: 1px solid grey;
+  border-radius: 10px;
+  opacity: 0.6;
+}
+
+.small-imagenes img:hover{
+  opacity: 1;
+  border-color: #48e;
+}
+
+.main-imagen{
+  width: 500px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin-left: 10px;
+}
+
+.main-imagen img{
+  width: auto;
+  height: auto;
+  object-fit: contain;
+}
+
+.texto{
+  flex-basis: 45%;
+  height: 100%;
+  min-height: 515px;
+  padding: 10px 0;
+  display: flex;
+  align-items: center;
+}
+
+.contenido{
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.marca{
+  background-color: #008000;
+  width: fit-content;
+  color: #fff;
+  font-size: 12px;
+  padding: 2px 5px;
+}
+
+
+.contenido h2{
+  font-size: clamp(1.4rem, 3vw, 1.6rem);
+}
+
+
+
+.precio{
+  font-size: 1.6rem;
+  font-weight: bold;
+  padding-right: 10px;
+}
+
+.caracteristicas{
+  display: grid;
+  grid-template-columns: repeat(2,1fr);
+  column-gap: 6rem;
+  text-wrap: pretty;
+  row-gap: 15px;
+}
+
+.btns-detalle_producto{
+  display: flex;
+  gap: 30px;
+  justify-content: center;
+  padding-top: 20px;
+}
+
+.btn-detalle_producto{
+  color: #fff;
+  font-size: 15px;
+  border-radius: 5px;
+  padding: 10px;
+  background-color: #000;
+  cursor: pointer;
+  border: none;
+  text-align: center;
+}
+
+/* --------------------- Fin Detalles del producto ------------------------- */
+
+
+
+@media (hover: none){ /* Cuando sea algun dispositivo que no tenga mouse */
+  .card-reloj_article{
+    overflow: initial;
+  }
+
+  .card-reloj_info{
+    bottom: -3rem;
+  }
+
+  .card-reloj_article:hover .card-reloj_info{
+    animation:  none;
+  }
+
+  .card-reloj_article:hover{
+    animation: none;
+  }
+
+}
+
+
+@media (width >= 1516px) {
+  .card-relojes{
+    grid-template-columns: repeat(4,1fr);
+  }
+
+  .img-reloj{
+    width: 320px;
+  }
+
+  .card-reloj_info{
+    width: 316px;
+  }
+
+}
+
+@media (min-width: 730px) and (max-width: 1515px) {
+  .card-relojes{
+    grid-template-columns: repeat(2,1fr);
+    column-gap: 1.5rem;
+  }
+
+  .img-reloj{
+    width: 320px;
+  }
+
+  .container-relojes{
+    margin-inline: 0;
+    margin-bottom: 20px;
+  }
+
+  .card-reloj_info{
+    padding: 1rem;
+  }
+
+}
+
+
+@media (width <= 1200px ) {
+  .card-productos{
+    grid-template-columns: repeat(3,1fr);
+    column-gap: 1.5rem;
+  }
+
+  .wrapper{
+    flex-direction: column;
+    height: auto;
+    align-items: center;
+    margin: 20px 0;
+  }
+
+  .texto{
+    padding: 30px 10px ;
+  }
+
+  .contenido{
+    gap: 12px;
+  }
+
+}
+
+@media (width <= 1024px) {
+  .card-juego, .card-celu {
+      flex: 0 0 calc(33.333% - 15px); 
+  }
+}
+
+
+@media (width <= 850px) {
+  .card-productos{
+    grid-template-columns: repeat(2,1fr);
+    column-gap: 1.5rem;
+  }
+}
+
+@media (width <= 768px) {
+  .card-juego, .card-celu{
+      flex: 0 0 calc(50% - 12px);
+  }
+}
+
+
+@media ( width <= 660px){
+  .imagenes{
+    flex-direction: column;
+    height: auto;
+  }
+
+  .small-imagenes{
+    flex-direction: row;
+    justify-content: space-evenly;
+    order: 1;
+    margin: 0;
+    margin-top: 5px;
+    width: 99%;
+    height: 80px;
+    gap: 0;
+  }
+
+  .small-imagenes img{
+    width: 20%;
+    height: 100%;
+  }
+
+  .producto-box{
+    width: 100%;
+    padding: 7px 3px 0;
+  }
+
+  .main-imagen{
+    margin: 0;
+    height: 400px;
+    width: 100%;
+  }
+
+  .main-imagen img{
+    border: 1px solid grey;
+    border-radius: 10px;   
+    width: 100%;
+    height: 100%;
+  }
+
+  .caracteristicas{
+    column-gap: 3rem;
+  }
+
+  .caracteristicas strong{
+    display: block;
+  }
+}
+
+
+@media (width <= 600px) {
+  .card-productos{
+    column-gap: 0.5rem;
+  }
+
+  .card-producto_article figure{
+    height: auto;
+  }
+
+}
+
+@media (width <= 500px){
+  .box-imagen{
+    width: 90%;
+    height: 60%;
+  }
+}
+
+@media (width <= 480px) {
+  .container-juegos, .container-celulares{
+    margin-inline: 0;
+  }
+
+  .btns-carrusels{
+    padding-left: 7px;
+    padding-right: 10px;
+  }
+}
+
+
+@media (width <= 430px){
+  .filtro{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .box-marcas{
+    justify-content: initial;
+  }
+}
+
+
+@media (height <= 530px){
+  .carrusel-nombre-producto{
+    display: -webkit-box;
+    -webkit-line-clamp: 1; /* Limita el texto a 1 líneas */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis; /* Muestra "..." cuando el texto sobrepasa el límite */
+  }
+}

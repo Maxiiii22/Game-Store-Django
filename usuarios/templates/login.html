@@ -1,0 +1,76 @@
+{% extends 'layout/base.html' %}
+{% load static %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'estilos/usuarios.css' %}"> 
+{% endblock %}
+
+{% block titulo %}
+    <title>Iniciar Sesión</title>
+{% endblock %}
+
+{% block contenido %}
+        <div class="container-form">
+            {% if messages %}
+                <ul class="form-error">
+                    {% for message in messages %}
+                        <li class="{{ message.tags }}">{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+            <div class="form-box">
+                <div class="forms-box-title">
+                    <h2>Iniciar Sesión</h2>
+                </div>
+                <form method="POST">
+                    {% csrf_token %}
+                    
+                    <div class="input-form-box">
+                        {{ form.username }}
+                        {% if form.username.errors %}
+                            <ul class="form-errors">
+                                {% for error in form.username.errors %}
+                                    <li>{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </div>
+
+                    <div class="input-form-box">
+                        {{ form.password }}
+                        {% if form.password.errors %}
+                            <ul class="form-errors">
+                                {% for error in form.password.errors %}
+                                    <li>{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-extras">
+                        <section>
+                            <input type="checkbox" name="" id="login-check">
+                            <label for="login-check">Recuerdame</label>
+                        </section>
+                        <section>
+                            <a href="#">Olvide mi contraseña</a>
+                        </section>
+                    </div>
+
+                    <button type="submit" class="form-btn-login" onclick="activarCarga()">
+                        <span class="btn-text">Ingresar</span>
+                        <span class="spinner hidden" id="spinner"></span>
+                    </button>
+
+                    <div class="form-link">
+                        <p>¿No tienes una cuenta? <a href="{% url 'signup' %}">Registrate</a></p>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+{% endblock %}
+
+{% block scripts_js %}
+    <script src="{% static 'js/forms.js' %}"></script>  <!-- Cargamos el archivo JS-->
+{% endblock %}

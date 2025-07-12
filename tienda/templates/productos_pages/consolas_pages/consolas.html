@@ -1,0 +1,90 @@
+{% extends 'layout/base.html' %}
+{% load custom_filters %} <!-- Usamos el módulo custom_filters(templatetags/custom_filters.py) que nos permite usar el filtro "punto_miles" , que separa miles automáticamente. (1000000 a 1.000.000)  -->
+{% load static %}
+
+{% block css%}
+    <link rel="stylesheet" href="{% static 'estilos/tienda.css' %}"> 
+    <!-- Agregamos la libreria Toastify -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <!----------------------->
+{% endblock%}
+
+{% block titulo %}
+    <title>Consolas</title>
+{% endblock %}
+
+
+{% block contenido %}
+    <div class="productos">
+        <div class="container-card-productos">
+            <div class="container-filtros">
+                <form method="get">
+                    <div class="box-filtros">
+                        <div class="filtro">
+                            <select name="filtrarPor" id="por" onchange="this.form.submit()">
+                                <option value="">-- Orderar por --</option>
+                                <option value="alfabeticamente-asc" {% if request.GET.filtrarPor == 'alfabeticamente-asc' %}selected{% endif %}>Nombre: A - Z</option>
+                                <option value="alfabeticamente-des" {% if request.GET.filtrarPor == 'alfabeticamente-des' %}selected{% endif %}>Nombre: Z - A</option>
+                                <option value="precio-asc" {% if request.GET.filtrarPor == 'precio-asc' %}selected{% endif %}>Precio: Menor a Mayor</option>
+                                <option value="precio-des" {% if request.GET.filtrarPor == 'precio-des' %}selected{% endif %}>Precio: Mayor a Menor</option>
+                            </select>
+                        </div>
+                        <div class="filtro">
+                            <select name="filtrarPorJuegos" id="juegos" onchange="this.form.submit()">
+                                <option value="">-- Juegos incluidos --</option>
+                                <option value="SinJuegos" {% if request.GET.filtrarPorJuegos == 'SinJuegos' %}selected{% endif %}>No</option>
+                                <option value="ConJuegos" {% if request.GET.filtrarPorJuegos == 'ConJuegos' %}selected{% endif %}>Si</option>
+                            </select>
+                        </div>
+                        <div class="filtro">
+                            <select name="filtrarPorColor" id="color" onchange="this.form.submit()">
+                                <option value="">-- Color --</option>
+                                {% for consola in consolas_colores %}
+                                    <option value="{{ consola.color }}" {% if request.GET.filtrarPorColor == consola.color %}selected{% endif %}>{{ consola.color }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                </form>
+                <div class="box-marcas">
+                    {% for consola in consolas_marcas %}
+                        <div class="marca-producto {% if request.GET.marca == consola.marca.id|stringformat:"s" %}active-marca-producto {% endif %}"  data-marca-id="{{ consola.marca.id }}">
+                            <figure>
+                                <img src="{{ consola.marca.logo_marca.url }}" alt="Imagen logo {{ consola.marca.nombre }}">
+                            </figure>
+                            <p>{{ consola.marca.nombre }}</p>
+                        </div>
+                    {% endfor %}
+                </div>
+                {% if request.GET.filtrarPorColor or request.GET.marca or request.GET.filtrarPorJuegos %}
+                <div class="box-limpiar-filtros">
+                    <a href="{% url 'consolas' %}" class="btn-limpiar-filtros">Limpiar filtros</a>
+                </div>
+                {% endif %}
+
+            </div>
+            <div class="card-productos">
+                {% for consola in consolas %}
+                    <article class="card-producto_article">
+                        <a href="{% url 'detalle_producto' consola.modelo_name consola.slug %}">
+                            <button id="btn-agregar-carrito" class="btn-agregar-carrito" data-modelo="{{ consola.modelo_name }}" data-id="{{ consola.id }}"><i class="fas fa-cart-plus"> </i></button>                            
+                            <figure>
+                                <img class="img-producto" src="{{consola.imagen_principal.url}}" alt="imagen de {{consola.nombre}}"  loading="lazy">
+                            </figure>
+                            <div class="card-producto_info">
+                                <p class="nombre-producto">{{consola.nombre}}</p>
+                                <p class="precio-producto">$ {{consola.precio|punto_miles}}</p>
+                            </div>
+                        </a>
+                    </article>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts_js %}    <script src="{% static 'js/scripts_generales.js' %}"></script>  {% endblock %}
+
+
+

@@ -1,0 +1,26 @@
+{% extends 'layout/base.html' %}
+{% load static %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'estilos/carrito.css' %}"> 
+{% endblock %}
+
+{% block titulo %}
+<title>Pago fallido</title>
+{% endblock  %}
+
+{% block contenido%}
+<div class="container">
+    <div class="box-pedido">
+        <i class="fas fa-exclamation-circle icon"></i>
+        <h3 class="encabezado-fallo">Error al realizar el pago</h3>
+        <p >{{error}}</p>
+        <p class="p-pago">Info del pago: {{payment_info}}</p>
+        <p class="p-pago"> <a class="link-home" href="{% url 'inicio' %}"> <i class="fas fa-home"></i> Volver al inicio</a></p>
+    </div>
+</div>
+
+{% endblock %}
+
+
+

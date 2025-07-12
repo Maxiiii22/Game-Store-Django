@@ -1,0 +1,66 @@
+{% extends 'layout/base.html' %}
+{% load custom_filters %}
+{% load static %}
+
+{% block css%}
+    <link rel="stylesheet" href="{% static 'estilos/tienda.css' %}"> 
+    <!-- Agregamos la libreria Toastify -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <!----------------------->
+{% endblock%}
+
+{% block titulo %}<title>{{celular.nombre}}</title>{% endblock %}
+
+
+{% block contenido %}
+    <div class="container-detalles_producto">
+        <div class="wrapper">
+            <div class="producto-box">
+                <div class="imagenes">
+                    <div class="small-imagenes">
+                        <img src="{{celular.imagen_principal.url}}"  onclick="clickImg(this)">
+                        {% for img in celular.imagenes_secundarias.all %} <!-- Recorremos todos los imagenes secundarias asociadas a este producto -->
+                        <img src="{{img.imagen.url}}" onclick="clickImg(this)">
+                        {% endfor %}
+                    </div>
+                    <div class="main-imagen">
+                        <img src="{{celular.imagen_principal.url}}" alt="imagen de {{celular.nombre}}" id="imagenbox">
+                    </div>
+                </div>
+            </div>
+            <div class="texto">
+                <div class="contenido">
+                    <p class="marca">Marca: {{celular.modelo.marca}}</p>
+                    <h2>{{celular.nombre}}</h2>
+                    <p class="precio">$ {{celular.precio|punto_miles}}</p>
+                    <p>{{celular.descripcion}}</p>
+                    <div class="caracteristicas">
+                        <p><strong>Garantia:</strong> {{celular.garantia}}</p>
+                        <p><strong>Stock:</strong> {{celular.stock}}</p>
+                        <p><strong>Fecha de Lanzamiento:</strong> {{celular.fecha_lanzamiento}}</p>
+                        <p><strong>Color:</strong> {{celular.color}}</p>
+                        <p><strong>Modelo:</strong> {{celular.modelo}}</p>
+                        <p><strong>Empresa:</strong> {{celular.modelo.marca.empresa}}</p>
+                        <p><strong>Sistema Operativo:</strong> {{celular.sistema_operativo}}</p>
+                        <p><strong>Tamaño de almacenamiento:</strong> {{celular.almacenamiento}}</p>
+                        <p><strong>Procesador:</strong> {{celular.procesador}}</p>
+                        <p><strong>Ram:</strong> {{celular.ram}}</p>
+                        <p><strong>Pantalla:</strong> {{celular.pantalla}}</p>
+                        <p><strong>Resolucion camara frontal:</strong> {{celular.resolucion_cam_frontal}}</p>
+                        <p><strong>Resolucion camara trasera:</strong> {{celular.resolucion_cam_trasera}}</p>
+                    </div>
+                    <div class="btns-detalle_producto">
+                        <button id="btn-agregar-carrito" class="btn-detalle_producto" data-modelo="{{ celular.modelo_name }}" data-id="{{ celular.id }}"><i class="fas fa-cart-plus"></i> Añadir al carrito</button> 
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block scripts_js %}    <script src="{% static 'js/scripts_generales.js' %}"></script>  {% endblock %}
+
+
+

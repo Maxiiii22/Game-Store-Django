@@ -1,0 +1,95 @@
+{% extends 'layout/base.html' %}
+{% load custom_filters %} <!-- Usamos el módulo custom_filters(templatetags/custom_filters.py) que nos permite usar el filtro "punto_miles" , que separa miles automáticamente. (1000000 a 1.000.000)  -->
+{% load static %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'estilos/carrito.css' %}"> 
+    <!-- Agregamos la libreria Toastify -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <!----------------------->    
+{% endblock %}
+
+{% block titulo %}
+<title>Mi carrito</title>
+{% endblock  %}
+
+{% block contenido%}
+
+
+<div class="carrito-productos">
+
+    <div class="box-carrito">
+        <div class="carrito-title">
+            <h2>Tu Carrito</h2>
+        </div>
+        <div class="carrito-content">
+            {% if carrito.lineas.exists %}
+                <section class="mostrar-lineas-productos">
+                    {% for linea in carrito.lineas.all %}
+                        <div class="linea-producto" data-linea-id="{{ linea.id }}">
+                            <div class="linea-producto-imagen">
+                                <figure class="container-imagen-carrito">
+                                    <img src="{{ linea.producto.imagen_principal.url }}" alt="imagen de {{ linea.producto.nombre }}" width="50px">
+                                </figure>
+                            </div>
+                            <div class="linea-producto-nombre">
+                                <small class="campo">Nombre</small>
+                                <p>{{ linea.producto.nombre }}</p>
+                            </div>
+                            <div class="linea-producto-precio">
+                                <small class="campo">Precio</small>
+                                <p>${{ linea.producto.precio|punto_miles }}</p>
+                            </div>
+                            <div class="linea-producto-cantidad">
+                                <small class="campo">Cantidad</small>
+                                <button class="btn-menos" data-modelo="{{ linea.producto.modelo_name }}" data-id="{{ linea.producto.id }}">➖</button>
+                                <span class="cantidad">{{ linea.cantidad }}</span>
+                                <button class="btn-agregar" data-modelo="{{ linea.producto.modelo_name }}" data-id="{{ linea.producto.id }}">➕</button>
+                            </div>
+                            <div class="linea-producto-subtotal">
+                                <small class="campo">Subtotal</small>
+                                <p class="subtotal">${{ linea.subtotal|punto_miles }}</p>
+                            </div>
+                            <div class="linea-producto-accion">
+                                <button class="btn-eliminar" data-modelo="{{ linea.producto.modelo_name }}" data-id="{{ linea.producto.id }}">❌</button>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </section>
+                <section class="carrito-detalles">
+                    <div class="box-detalles">
+
+                        <div class="carrito-detalles-item">
+                            <button class="btn-carrito vaciar-carrito"><i class="fas fa-shopping-cart"> </i> Vacia carrito</button>
+                        </div>
+                        <div class="carrito-detalles-item">
+                            <div class="item-total">
+                                <p>Total: <span id="total">${{ total|punto_miles }}</span></p>
+                            </div>
+                            <div class="item-btn-compra">
+                                <a href="{% url 'confirmar_compra' %}" class="btn-carrito comprar-carrito"><i class="fas fa-shopping-bag"></i> Confirmar compra</a> 
+                            </div>
+                            
+                        </div>
+
+                    </div>
+                </section>
+            {% else %}
+                <section class="mostrar-linea-noProductos">
+                    <div class="linea-noProductos">
+                        <p><i class="fas fa-shopping-cart"></i> No hay productos en el carrito</p>
+                    </div>
+                </section>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+
+
+
+{% endblock %}
+
+{% block scripts_js %} <script src="{% static 'js/carrito.js' %}"></script> {% endblock %}
+

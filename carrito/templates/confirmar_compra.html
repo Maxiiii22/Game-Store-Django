@@ -1,0 +1,110 @@
+{% extends 'layout/base.html' %}
+{% load custom_filters %} <!-- Usamos el módulo custom_filters(templatetags/custom_filters.py) que nos permite usar el filtro "punto_miles" , que separa miles automáticamente. (1000000 a 1.000.000)  -->
+{% load static %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'estilos/carrito.css' %}"> 
+{% endblock %}
+
+{% block titulo %}
+<title>Confirmar Compra</title>
+{% endblock  %}
+
+{% block contenido%}
+
+
+<div class="container">
+    <div class="form-direccion">
+        <form id="form-confirmar-compra" method="POST">
+            {% csrf_token %}
+            <h2>Confirmar Compra</h2>
+            <p>Total: ${{ carrito.total|punto_miles }}</p>
+
+            <div class="box-metodoEnvio">
+                <label class="label-info">Seleccione un método de envío: 
+                    <span class="info-icon" id="info-icon" data-target="info-box-1">?</span>
+                    <div class="info-box" id="info-box-1">
+                            <p>Selecciona cómo prefieres recibir tu pedido: a <strong>domicilio</strong> o <strong>retirarlo</strong> en una tienda.</p>
+                    </div>
+                </label>
+
+                <select name="metodo_envio" class="select-envio" id="metodo_envio">
+                    <option value="">Seleccion una opcion</option>
+                    <option value="envio_estandar">Envío a domicilio</option>
+                    <option value="retirar_tienda">Retiro en tienda</option>
+                </select>
+            </div>
+
+            <div class="box-direccion hidden" id="box-direccion">
+                <label class="label-info">Dirección de Envío
+                    <span class="info-icon" id="info-icon" data-target="info-box-2">?</span>
+                    <div class="info-box" id="info-box-2">
+                            <p>Por favor, ingresa la dirección completa a la que deseas que te enviemos tu pedido.</p>
+                    </div>
+                </label>
+                    <p id="error-p-direccion"></p>
+                <div class="input-box">
+                    <label for="id_direccion">Dirección:</label>
+                    {{ form.direccion }}
+                </div>
+                <div class="input-box">
+                    <label for="id_numero_puerta">Número de puerta:</label>
+                    {{ form.numero_puerta }}
+                </div>
+                <div class="input-box">
+                    <label for="id_ciudad">Ciudad:</label>
+                    {{ form.ciudad }}
+                </div>
+                <div class="input-box">
+                    <label for="id_provincia">Provincia:</label>
+                    {{ form.provincia }}
+                </div>
+                <div class="input-box">
+                    <label for="id_codigo_postal">Código postal:</label>
+                    {{ form.codigo_postal }}
+                </div>
+                <div class="input-box">
+                    <label for="id_instrucciones_envio">Instrucciones de envío:</label>
+                    {{ form.instrucciones_envio }}
+                </div>
+            </div>
+
+            <div class="box-locales hidden" id="box-locales">
+                <label class="label-info">Nuestros locales
+                    <span class="info-icon" id="info-icon" data-target="info-box-3">?</span>
+                    <div class="info-box" id="info-box-3">
+                            <p>Selecciona el local más cercano a tu domicilio para retirar tu pedido.</p>
+                    </div>
+                </label> 
+                <p id="error-p-locales"></p>               
+                <ul class="tiendas-list">
+                    {% for tienda in form_locales.tienda %}
+                        <li>
+                            {{tienda}}
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <div class="box-btn hidden">
+                <button type="submit" id="boton-confirmar-compra">
+                    <span class="btn-text">Confirmar Compra</span>
+                    <span class="spinner hidden" id="spinner"></span>
+                </button> 
+            </div>
+        </form>
+
+    </div>
+</div>
+
+
+
+
+{% endblock %}
+
+
+{% block scripts_js %}
+    <script> window.MERCADOPAGO_PUBLIC_KEY = "{{ mercadopago_public_key }}";  // La clave pública de Mercado Pago </script>
+    <script src="https://sdk.mercadopago.com/js/v2"></script> <!-- Cargar SDK de Mercado Pago -->
+    <script src="{% static 'js/confirmar_pago.js' %}"></script>
+{% endblock %}

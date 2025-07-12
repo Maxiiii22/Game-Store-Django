@@ -1,0 +1,66 @@
+{% extends 'layout/base.html' %}
+{% load custom_filters %}
+{% load static %}
+
+{% block css%}
+    <link rel="stylesheet" href="{% static 'estilos/tienda.css' %}"> 
+    <!-- Agregamos la libreria Toastify -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <!----------------------->
+{% endblock%}
+
+{% block titulo %}<title>{{reloj.nombre}}</title>{% endblock %}
+
+
+{% block contenido %}
+    <div class="container-detalles_producto">
+        <div class="wrapper">
+            <div class="producto-box">
+                <div class="imagenes">
+                    <div class="small-imagenes">
+                        <img src="{{reloj.imagen_principal.url}}"  onclick="clickImg(this)">
+                        {% for img in reloj.imagenes_secundarias.all %} <!-- Recorremos todos los imagenes secundarias asociadas a este producto -->
+                        <img src="{{img.imagen.url}}" onclick="clickImg(this)">
+                        {% endfor %}
+                    </div>
+                    <div class="main-imagen">
+                        <img src="{{reloj.imagen_principal.url}}" alt="imagen de {{reloj.nombre}}" id="imagenbox">
+                    </div>
+                </div>
+            </div>
+            <div class="texto">
+                <div class="contenido">
+                    <p class="marca">Marca: {{reloj.modelo.marca}}</p>
+                    <h2>{{reloj.nombre}}</h2>
+                    <p class="precio">$ {{reloj.precio |punto_miles}}</p>
+                    <p>{{reloj.descripcion}}</p>
+                    <div class="caracteristicas">
+                        <p><strong>Garantia:</strong> {{reloj.garantia}}</p>
+                        <p><strong>Stock:</strong> {{reloj.stock}}</p>
+                        <p><strong>Fecha de Lanzamiento:</strong> {{reloj.fecha_lanzamiento}}</p>
+                        {% if reloj.color %}<p><strong>Color:</strong> {{reloj.color}}</p> {% endif %}
+                        <p><strong>Modelo:</strong> {{reloj.modelo}}</p>
+                        <p><strong>Empresa:</strong> {{reloj.modelo.marca.empresa}}</p>
+                        <p><strong>Tipo de pantalla:</strong> {{reloj.tipo_pantalla}}</p>
+                        <p><strong>Tamaño de la pantalla:</strong> {{reloj.tamaño_pantalla}}</p>
+                        <p><strong>Duración de la bateria:</strong> {{reloj.duracion_bateria}}</p>
+                        <p><strong>Conectividad:</strong> {{reloj.conectividad}}</p>
+                        <p><strong>Compatibilidad:</strong> {{reloj.compatibilidad}}</p>
+                        <p><strong>Sensores:</strong> {{reloj.sensores}}</p>
+                    </div>
+                    <div class="btns-detalle_producto">
+                        <button id="btn-agregar-carrito" class="btn-detalle_producto" data-modelo="{{ reloj.modelo_name }}" data-id="{{ reloj.id }}"><i class="fas fa-cart-plus"></i> Añadir al carrito</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}
+
+{% block scripts_js %}    <script src="{% static 'js/scripts_generales.js' %}"></script>  {% endblock %}
+
+
+

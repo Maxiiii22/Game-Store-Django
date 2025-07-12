@@ -1,0 +1,26 @@
+{% extends 'layout/base.html' %}
+{% load static %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'estilos/carrito.css' %}"> 
+{% endblock %}
+
+{% block titulo %}
+<title>Pago exitoso</title>
+{% endblock  %}
+
+{% block contenido%}
+    <div class="container">
+        <div class="box-pedido">
+            <i class="fas fa-check-square icon"></i>
+            <h3 class="encabezado-exito">Gracias por comprar en Game Store</h3>
+            <p style="display: none;">Info del pago: {{payment_info}}</p>
+            <p class="p-pago"><a class="link-home" href="{% url 'misPedidos' %}"> <i class="fas fa-clipboard-list"></i> Ver mis pedidos</a></p>
+            <p class="p-pago"> <a class="link-home" href="{% url 'inicio' %}"> <i class="fas fa-home"></i> Volver al inicio</a></p>
+        </div>
+    </div>
+
+{% endblock %}
+
+
+

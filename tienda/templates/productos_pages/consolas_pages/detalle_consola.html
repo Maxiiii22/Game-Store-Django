@@ -1,0 +1,63 @@
+{% extends 'layout/base.html' %}
+{% load custom_filters %}
+{% load static %}
+
+{% block css%}
+    <link rel="stylesheet" href="{% static 'estilos/tienda.css' %}"> 
+    <!-- Agregamos la libreria Toastify -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <!----------------------->
+{% endblock%}
+
+{% block titulo %}<title>{{consola.nombre}}</title>{% endblock %}
+
+
+{% block contenido %}
+        <div class="container-detalles_producto">
+            <div class="wrapper">
+                <div class="producto-box">
+                    <div class="imagenes">
+                        <div class="small-imagenes">
+                            <img src="{{consola.imagen_principal.url}}"  onclick="clickImg(this)">
+                            {% for img in consola.imagenes_secundarias.all %} <!-- Recorremos todos los imagenes secundarias asociadas a este producto -->
+                            <img src="{{img.imagen.url}}" onclick="clickImg(this)">
+                            {% endfor %}
+                        </div>
+                        <div class="main-imagen">
+                            <img src="{{consola.imagen_principal.url}}" alt="imagen de {{consola.nombre}}" id="imagenbox">
+                        </div>
+                    </div>
+                </div>
+                <div class="texto">
+                    <div class="contenido">
+                        <p class="marca">Marca: {{consola.modelo.marca}}</p>
+                        <h2>{{consola.nombre}}</h2>
+                        <p class="precio">$ {{consola.precio |punto_miles}}</p>
+                        <p>{{consola.descripcion}}</p>
+                        <div class="caracteristicas">
+                            <p><strong>Garantia:</strong> {{consola.garantia}}</p>
+                            <p><strong>Stock:</strong> {{consola.stock}}</p>
+                            <p><strong>Color:</strong> {{consola.color}}</p>
+                            <p><strong>Fecha de Lanzamiento:</strong> {{consola.fecha_lanzamiento}}</p>
+                            <p><strong>Modelo:</strong> {{consola.modelo}}</p>
+                            <p><strong>Empresa:</strong> {{consola.modelo.marca.empresa}}</p>
+                            <p><strong>Edicion:</strong> {{consola.edicion}}</p>
+                            {% if consola.duracion_bateria %} <p><strong>Duración de la batería:</strong> {{consola.duracion_bateria}}</p> {% endif %}
+                            <p><strong>Tamaño de almacenamiento:</strong> {{consola.almacenamiento}}</p>
+                            <p><strong>Peso:</strong> {{consola.peso}}</p>
+                            <p><strong>Altura x Ancho x Profundidad:</strong> {{consola.tamaño}}</p>
+                            <p><strong>Cantidad de controles:</strong> {{consola.cant_controles}}</p>
+                            {% if consola.juegos_incluidos %} <p><strong>Juego(s) incluido(s):</strong> {{consola.juegos_incluidos}}</p> {% endif %}
+                        </div>
+                        <div class="btns-detalle_producto">
+                            <button id="btn-agregar-carrito" class="btn-detalle_producto" data-modelo="{{ consola.modelo_name }}" data-id="{{ consola.id }}"><i class="fas fa-cart-plus"></i> Añadir al carrito</button> 
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+ 
+{% endblock %}
+
+{% block scripts_js %}    <script src="{% static 'js/scripts_generales.js' %}"></script>  {% endblock %}

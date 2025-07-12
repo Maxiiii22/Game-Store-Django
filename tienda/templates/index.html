@@ -1,0 +1,138 @@
+{% extends 'layout/base.html' %}
+{% load static %}
+{% load custom_filters %}  <!-- Usamos el módulo custom_filters(templatetags/custom_filters.py) que nos permite usar el filtro "punto_miles" , que separa miles automáticamente. (1000000 a 1.000.000)  -->
+
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'estilos/tienda.css' %}"> 
+    <!-- Agregamos la libreria Toastify -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <!----------------------->
+{% endblock %}
+
+{% block titulo %}
+    <title>Game Store</title>
+{% endblock %}  
+
+{% block contenido %}
+    <div class="container-main">
+        
+        <div class="container-productos">
+            <div class="carrusel-productos">
+                {% for producto in productos %}
+                    <div class="carrusel-productos-items">
+                        <a href="{% url 'detalle_producto' producto.modelo_name  producto.slug %}">
+                            <div class="contenido-producto">
+                                <div class="carrusel-img-productos">
+                                    <div class="box-imagen">
+                                        <img src="{{producto.imagen_principal.url}}" alt="imagen de {{producto.nombre}}"  loading="lazy">
+                                    </div>
+                                </div>
+                                <div class="carrusel-info-productos">
+                                    <h3 class="carrusel-nombre-producto">{{producto.nombre}}</h3>
+                                    <p class="carrusel-precio-producto">$ {{producto.precio|punto_miles}}</p>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="carrusel-productos-btns">
+                <button id="anterior">&#10094;</button>
+                <ul class="puntos">
+                    <li class="active"></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                </ul>
+                <button id="siguiente">&#10095;</button>
+            </div>   
+        </div>
+
+        <div class="container-relojes">
+            <div id="tlt-container-relojes">
+                <h2>Últimas incorporaciones de Smartwatches</h2>
+                <div class="ver-todos">
+                    <p><a href="{% url 'relojes' %}">Ver todos &#10095;</a></p>
+                </div>
+            </div>
+            <div class="card-relojes">
+                {% for reloj in relojes %}
+                    <article class="card-reloj_article">
+                        <a href="{% url 'detalle_producto' reloj.modelo_name reloj.slug %}">
+                            <img class="img-reloj" src="{{reloj.imagen_principal.url}}" alt="imagen de {{reloj.nombre}}"  loading="lazy">
+                            <div class="card-reloj_info">
+                                <h3 class="nombre-reloj">{{reloj.nombre}}</h3>
+                                <p class="precio-reloj">$ {{reloj.precio|punto_miles}}</p>
+                            </div>
+                        </a>
+                    </article>
+                {% endfor %}
+            </div>
+        </div>
+
+
+        <div class="container-juegos">
+            <div id="tlt-container-juegos">
+                <h2>Podrían interesarte estos videojuegos</h2>
+                <div class="ver-todos">
+                    <p><a href="{% url 'videojuegos' %}">Ver todos &#10095;</a></p>
+                </div>
+            </div>
+            <div class="carrusel-juegos-wrapper">
+                <div class="btns-carrusels">
+                    <button class="btn-carrusel" id="juegos-anterior">&#10094;</button>
+                    <button class="btn-carrusel" id="juegos-siguiente">&#10095;</button>
+                </div>
+                <div class="carrusel-juegos" id="juegos-carrusel">
+                    {% for juego in juegos %}
+                        <div class="card-juego">
+                            <a href="{% url 'detalle_producto' juego.modelo_name juego.slug %}">
+                                <img class="img-juego" src="{{ juego.imagen_principal.url }}" alt="{{ juego.nombre }}"  loading="lazy">
+                                <div class="card-juego_info">
+                                <p class="nombre-juego">{{ juego.nombre }}</p>
+                                <p class="precio-juego">${{ juego.precio|punto_miles }}</p>
+                                </div>
+                            </a>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+
+        <div class="container-celulares">
+            <div id="tlt-container-celulares">
+                <h2>Celulares recomendados</h2>
+                <div class="ver-todos">
+                    <p><a href="{% url 'celulares' %}">Ver todos &#10095;</a></p>
+                </div>
+            </div>
+            <div class="carrusel-celulares-wrapper">
+                <div class="btns-carrusels">
+                    <button class="btn-carrusel" id="celulares-anterior">&#10094;</button>
+                    <button class="btn-carrusel" id="celulares-siguiente">&#10095;</button>
+                </div>
+                <div class="carrusel-celulares" id="celulares-carrusel">
+                    {% for celular in celulares %}
+                        <div class="card-celu">
+                            <a href="{% url 'detalle_producto' celular.modelo_name celular.slug %}">
+                                <img class="img-celular" src="{{celular.imagen_principal.url}}" alt="imagen de {{celular.nombre}}"  loading="lazy">
+                                <div class="card-celular_info">
+                                    <p class="nombre-celular">{{celular.nombre}}</p>
+                                    <p class="precio-celular">$ {{celular.precio|punto_miles}}</p>
+                                </div>
+                            </a>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+    
+
+{% endblock %}    
+
+{% block scripts_js %}  <script src="{% static 'js/script_index.js' %}"></script>  <!-- Cargamos el archivo JS--> {% endblock %}

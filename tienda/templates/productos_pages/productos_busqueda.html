@@ -1,0 +1,81 @@
+{% extends 'layout/base.html' %}
+{% load custom_filters %} <!-- Usamos el módulo custom_filters(templatetags/custom_filters.py) que nos permite usar el filtro "punto_miles" , que separa miles automáticamente. (1000000 a 1.000.000)  -->
+{% load static %}
+
+{% block css%}
+    <link rel="stylesheet" href="{% static 'estilos/tienda.css' %}"> 
+    <!-- Agregamos la libreria Toastify -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <!----------------------->
+{% endblock%}
+
+
+{% block titulo %}
+<title>Resultados de tu busqueda</title>
+{% endblock %}
+
+
+{% block contenido %}
+    <div class="productos">
+        {% if page_obj %}
+        <div class="container-card-productos">
+            <div class="card-productos">
+                {% for producto in page_obj %}
+                    <article class="card-producto_article">
+                        <a href="{% url 'detalle_producto' producto.modelo_name producto.slug %}">
+                            <button id="btn-agregar-carrito" class="btn-agregar-carrito" data-modelo="{{ producto.modelo_name }}" data-id="{{ producto.id }}">
+                                <i class="fas fa-cart-plus"></i>
+                            </button>
+                            <figure>
+                                <img class="img-producto" src="{{ producto.imagen_principal.url }}" alt="Imagen de {{ producto.nombre }}">
+                            </figure>
+                            <div class="card-producto_info">
+                                <p class="nombre-producto">{{ producto.nombre }}</p>
+                                <p class="precio-producto">$ {{ producto.precio|punto_miles }}</p>
+                            </div>
+                        </a>
+                    </article>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="pagination">
+            <span class="step-links">
+        
+                {% if page_obj.has_previous %}
+                    <a href="?consulta={{ consulta }}&page=1">&laquo;</a>
+                    <a href="?consulta={{ consulta }}&page={{ page_obj.previous_page_number }}">&lsaquo;</a>
+                {% endif %}
+        
+                <!-- Mostrar números de páginas -->
+                {% for num in page_obj.paginator.page_range %}
+                    {% if num == page_obj.number %}
+                        <span class="current">{{ num }}</span>
+                    {% elif num > page_obj.number|add:-3 and num < page_obj.number|add:3 %}
+                        <a href="?consulta={{ consulta }}&page={{ num }}">{{ num }}</a>
+                    {% endif %}
+                {% endfor %}
+        
+                {% if page_obj.has_next %}
+                    <a href="?consulta={{ consulta }}&page={{ page_obj.next_page_number }}">&rsaquo;</a>
+                    <a href="?consulta={{ consulta }}&page={{ page_obj.paginator.num_pages }}">&raquo;</a>
+                {% endif %}
+        
+            </span>
+        </div>
+
+    </div>
+
+
+
+    {% else %}
+        <div class="noProductos">
+            <p>No se encontraron productos.</p>
+        </div>
+    {% endif %}
+{% endblock %}
+
+{% block scripts_js %} <script src="{% static 'js/scripts_generales.js' %}"></script>   {% endblock %}
+
+

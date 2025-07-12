@@ -1,0 +1,91 @@
+{% extends 'layout/base.html' %}
+{% load custom_filters %} <!-- Usamos el módulo custom_filters(templatetags/custom_filters.py) que nos permite usar el filtro "punto_miles" , que separa miles automáticamente. (1000000 a 1.000.000)  -->
+{% load static %}
+
+{% block css%}
+    <link rel="stylesheet" href="{% static 'estilos/tienda.css' %}"> 
+    <!-- Agregamos la libreria Toastify -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <!----------------------->
+{% endblock%}
+
+
+{% block titulo %}
+<title>Accesorios para PC</title>
+{% endblock %}
+
+
+{% block contenido %}
+    <div class="productos">
+        <div class="container-card-productos">
+            <div class="container-filtros">
+                <form method="get">
+                    <div class="box-filtros">
+                        <div class="filtro">
+                            <select name="filtrarPor" id="por" onchange="this.form.submit()">
+                                <option value="">-- Orderar por --</option>
+                                <option value="alfabeticamente-asc" {% if request.GET.filtrarPor == 'alfabeticamente-asc' %}selected{% endif %}>Nombre: A - Z</option>
+                                <option value="alfabeticamente-des" {% if request.GET.filtrarPor == 'alfabeticamente-des' %}selected{% endif %}>Nombre: Z - A</option>
+                                <option value="precio-asc" {% if request.GET.filtrarPor == 'precio-asc' %}selected{% endif %}>Precio: Menor a Mayor</option>
+                                <option value="precio-des" {% if request.GET.filtrarPor == 'precio-des' %}selected{% endif %}>Precio: Mayor a Menor</option>
+                            </select>
+                        </div>
+                        <div class="filtro">
+                            <select name="filtrarPorColor" id="color" onchange="this.form.submit()">
+                                <option value="">-- Color --</option>
+                                {% for accesorio in accesorios_colores %}
+                                    <option value="{{ accesorio.color }}" {% if request.GET.filtrarPorColor == accesorio.color %}selected{% endif %}>{{ accesorio.color }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="filtro">
+                            <select name="filtrarPorTipoAccesorio" id="tipo" onchange="this.form.submit()">
+                                <option value="">-- Todos los accesorios --</option>
+                                {% for accesorio in accesorios_tipos %}
+                                    <option value="{{ accesorio.tipo }}" {% if request.GET.filtrarPorTipoAccesorio == accesorio.tipo %}selected{% endif %}>{{ accesorio.tipo|capfirst }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                </form>
+                <div class="box-marcas">
+                    {% for accesorio in accesorios_marcas %}
+                        <div class="marca-producto {% if request.GET.marca == accesorio.marca.id|stringformat:"s" %} active-marca-producto {% endif %}"  data-marca-id="{{ accesorio.marca.id }}">
+                            <figure>
+                                <img src="{{ accesorio.marca.logo_marca.url }}" alt="Imagen logo {{ accesorio.marca.nombre }}">
+                            </figure>
+                            <p>{{ accesorio.marca.nombre }}</p>
+                        </div>
+                    {% endfor %}
+                </div>
+                {% if request.GET.filtrarPorColor or request.GET.marca or request.GET.filtrarPorTipoAccesorio %}
+                <div class="box-limpiar-filtros">
+                    <a href="{% url 'accesoriosPC' %}" class="btn-limpiar-filtros">Limpiar filtros</a>
+                </div>
+                {% endif %}
+
+            </div>            
+            <div class="card-productos">
+                {% for accesorio in accesorios %}
+                    <article class="card-producto_article">
+                        <a href="{% url 'detalle_producto' accesorio.modelo_name accesorio.slug %}">
+                            <button id="btn-agregar-carrito" class="btn-agregar-carrito" data-modelo="{{ accesorio.modelo_name }}" data-id="{{ accesorio.id }}"><i class="fas fa-cart-plus"> </i></button>
+                            <figure>
+                                <img class="img-producto" src="{{accesorio.imagen_principal.url}}" alt="imagen de {{accesorio.nombre}}"  loading="lazy">
+                            </figure>
+                            <div class="card-producto_info">
+                                <p class="nombre-producto">{{accesorio.nombre}}</p>
+                                <p class="precio-producto">$ {{accesorio.precio|punto_miles}}</p>
+                            </div>
+                        </a>
+                    </article>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts_js %} <script src="{% static 'js/scripts_generales.js' %}"></script>   {% endblock %}
+
+

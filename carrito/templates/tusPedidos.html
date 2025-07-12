@@ -1,0 +1,78 @@
+{% extends 'layout/base.html' %}
+{% load custom_filters %} <!-- Usamos el módulo custom_filters(templatetags/custom_filters.py) que nos permite usar el filtro "punto_miles" , que separa miles automáticamente. (1000000 a 1.000.000)  -->
+{% load static %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'estilos/carrito.css' %}"> 
+{% endblock %}
+
+{% block titulo %}
+<title>Tus pedidos</title>
+{% endblock  %}
+
+{% block contenido%}
+
+
+<div class="carrito-productos">
+    <div class="box-carrito">
+        <div class="carrito-title">
+            <h2>Tus pedidos</h2>
+        </div>
+        <div class="carrito-content pedidos">
+            {% for pedido in pedidos %}
+                <div class="pedido-box" id="boxPedido-{{ pedido.id }}" onclick="togglePedido('{{ pedido.id }}')">
+                    <div class="pedido-header" >
+                        <div>
+                            <strong>Pedido #{{ pedido.id }}</strong> - 
+                            Estado: <strong class="estado-pedido">{{ pedido.estado|capfirst }}</strong> -
+                            {% if pedido.estado == "pagado" and pedido.metodo_envio == "envio_estandar" %} Entregar en: {{pedido.direccion_envio.getDireccion}} {% endif %}
+                            {% if pedido.estado == "enviado" and pedido.metodo_envio == "envio_estandar" %} En envío hacia: {{pedido.direccion_envio.getDireccion}} {% endif %}
+                            {% if pedido.estado == "entregado" and pedido.metodo_envio == "envio_estandar" %} Entregado en: {{pedido.direccion_envio.getDireccion}} {% endif %}
+                            {% if pedido.estado == "pagado" and pedido.metodo_envio == "retira_tienda" %} Retirar en el local: {{pedido.retiro_local.getLocalRetiro}} {% endif %}
+                            {% if pedido.estado == "entregado" and pedido.metodo_envio == "retira_tienda" %} Retirado en el local: {{pedido.retiro_local.getLocalRetiro}} {% endif %}
+                            - Total: ${{ pedido.total|punto_miles }}
+                        </div>
+                        <div>
+                            <i class="fas fa-arrow-circle-up hidden" id="close-pedidos-{{ pedido.id }}" ></i>
+                            <i class="fas fa-arrow-circle-down" id="open-pedidos-{{ pedido.id }}"></i>
+                        </div>
+                    </div>
+
+                    <div class="pedido-lineas hidden-linea" id="pedido-{{ pedido.id }}">
+                        {% for linea in pedido.lineasPedido.all %}
+                            <div class="linea-producto">
+                                <div class="linea-producto-imagen">
+                                    <figure class="container-imagen-carrito">
+                                        <img src="{{ linea.producto.imagen_principal.url }}" alt="imagen de {{ linea.producto.nombre }}" width="50px">
+                                    </figure>
+                                </div>
+                                <div class="linea-producto-nombre">
+                                    <small class="campo">Nombre</small>
+                                    <p>{{ linea.producto.nombre }}</p>
+                                </div>
+                                <div class="linea-producto-precio">
+                                    <small class="campo">Precio</small>
+                                    <p>${{ linea.producto.precio|punto_miles }}</p>
+                                </div>
+                                <div class="linea-producto-cantidad">
+                                    <small class="campo">Cantidad</small>
+                                    <span class="cantidad">{{ linea.cantidad }}</span>
+                                </div>
+                                <div class="linea-producto-subtotal">
+                                    <small class="campo">Subtotal</small>
+                                    <p class="subtotal">${{ linea.subtotal|punto_miles }}</p>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% empty %}
+                <p>No tenés pedidos todavía.</p>
+            {% endfor %}
+    </div>
+</div>
+
+{% endblock %}
+
+{% block scripts_js %} <script src="{% static 'js/carrito.js' %}"></script> {% endblock %}
+
