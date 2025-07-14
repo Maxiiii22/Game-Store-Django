@@ -83,5 +83,12 @@
 >    -Código: 123  
 >    -Vencimiento: 11/30
 
+> **Admin de testeo:**
+> User: `adminTest`
+> Password: `Admin45912`
+
+> **User de testeo:**
+> User: `userTest`
+> Password: `User45912`
 
 
