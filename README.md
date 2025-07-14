@@ -10,24 +10,22 @@
   - Sistema de usuarios personalizado (`CustomUser`).
   - Asociación de usuarios con los modulos de Pedido, DireccionEnvio y Carrito.
 
-- 🛒 **Carrito de Compras ("Aplicación Carrito") **
+### 🛒 **Carrito de Compras ("Aplicación Carrito") **
   - Permite agregar productos desde distintas categorías al carrito (videojuegos, consolas, celulares, relojes inteligentes y accesorios de PC).
   - Uso de `GenericForeignKey` para gestionar productos de diferentes modelos en una misma estructura.
   - Reserva de stock automática  mediante un modelo de `ReservaStock`.
   - Confirmación de pedidos con elección de envío o retiro en tienda.    
 
-- 📦 **Sistema de Pedidos**
+### 📦 **Sistema de Pedidos**
   - Los pedidos pueden tener estado (pendiente, enviado, cancelado, etc.).
   - Las reservas de stock se vinculan con el pedido para asegurar la disponibilidad.
   - Gestión de pedidos por usuario.
   - Confirmación de pedidos y vinculación con direcciones de envío o retiro por sucursal.
 
- - 📱 **Tienda ("Aplicación Tienda")**
+### 📱 **Tienda ("Aplicación Tienda")**
   - Diversos modelos de productos: videojuegos, consolas, celulares, smartwatches y accesorios de PC.
 
-
-
-- 🧩 **Modularidad del Código**
+### 🧩 **Modularidad del Código**
   - Separación clara por apps (`carrito`, `usuarios`, etc.).
   - Uso de `context_processors` para pasar datos globales como el total del carrito.
 
