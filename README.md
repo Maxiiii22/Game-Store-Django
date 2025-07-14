@@ -7,6 +7,9 @@
 ![Vista previa](imagesPreview/img-3.jpg)
 ![Vista previa](imagesPreview/img-4.jpg)
 ![Vista previa](imagesPreview/img-5.jpg)
+![Vista previa](imagesPreview/img-6.jpg)
+![Vista previa](imagesPreview/img-7.jpg)
+![Vista previa](imagesPreview/img-8.jpg)
 
 ---
 
