@@ -2,6 +2,12 @@
 
 **Game Store** es una plataforma e-commerce desarrollada con **Django**, que permite comprar videojuegos, consolas, celulares, relojes inteligentes y accesorios de PC. Incluye un sistema completo de carrito, pedidos, usuarios, retiro en tiendas físicas, direcciones de envío, control de stock, , pagos con MercadoPago, y filtros dinámicos para facilitar la navegación.
 
+![Vista previa](imagesPreview/img-1.jpg)
+![Vista previa](imagesPreview/img-2.jpg)
+![Vista previa](imagesPreview/img-3.jpg)
+![Vista previa](imagesPreview/img-4.jpg)
+![Vista previa](imagesPreview/img-5.jpg)
+
 ---
 
 ## 🧰 Funcionalidades Principales
