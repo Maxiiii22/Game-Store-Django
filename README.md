@@ -6,7 +6,7 @@
 
 ## 🧰 Funcionalidades Principales
 
-- 🧍 ** Gestión de Usuarios ("Aplicación Usuarios") **
+### 🧍 ** Gestión de Usuarios ("Aplicación Usuarios") **
   - Sistema de usuarios personalizado (`CustomUser`).
   - Asociación de usuarios con los modulos de Pedido, DireccionEnvio y Carrito.
 
