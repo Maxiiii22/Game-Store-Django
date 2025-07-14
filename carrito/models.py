@@ -143,7 +143,7 @@ class LineaPedido(models.Model):
         return self.producto.precio * self.cantidad
     
     def __str__(self):
-        return f"Linea de Pedido {self.pedido.id} - Producto: {self.producto.nombre} - Cantidad: {self.cantidad}"
+        return f"Linea del Pedido N°{self.pedido.id} del usuario {self.pedido.usuario.username}: - Producto: {self.producto.nombre} - Cantidad: {self.cantidad}"
 
 
 class ReservaStock(models.Model):
