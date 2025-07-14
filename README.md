@@ -76,12 +76,12 @@
 > Este proyecto utiliza integración con Mercado Pago para gestionar pagos en línea. **Las credenciales `ACCESS_TOKEN` y `PUBLIC_KEY` deben ser reemplazadas por tus propias claves de prueba o producción**, dependiendo del entorno.
 > Estas credenciales son provistas por Mercado Pago para pruebas en modo "sandbox" (no involucran dinero real).
 > Cuenta de Comprador de prueba que puedes utilizar:
-  - **Email:** `TESTUSER1428285710`
-  - **Contraseña:** `3pHTGn8R8Z`
-  - **Tarjeta de testeo:**
-    -Número de tarjeta: 5031 7557 3453 0604  
-    -Código: 123  
-    -Vencimiento: 11/30
+>  - **Email:** `TESTUSER1428285710`
+>  - **Contraseña:** `3pHTGn8R8Z`
+>  - **Tarjeta de testeo:**
+>    -Número de tarjeta: 5031 7557 3453 0604  
+>    -Código: 123  
+>    -Vencimiento: 11/30
 
 
 
