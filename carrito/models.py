@@ -111,11 +111,9 @@ class LineaCarrito(models.Model):
 
 class Pedido(models.Model):
     ESTADO_CHOICES = [
-        ('pendiente', 'Pendiente'),
         ('pagado', 'Pagado'),
         ('enviado', 'Enviado'),
         ('entregado', 'Entregado'),
-        ('cancelado', 'Cancelado'),
     ]
     
     usuario = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
