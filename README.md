@@ -84,7 +84,7 @@
 > ⚠️ **Advertencia de Seguridad:**
 > Este proyecto utiliza integración con Mercado Pago para gestionar pagos en línea. **Las credenciales `ACCESS_TOKEN` y `PUBLIC_KEY` deben ser reemplazadas por tus propias claves de prueba o producción**, dependiendo del entorno. (Estas se encuentran en  game_store/settings.py)
 > Estas credenciales son provistas por Mercado Pago para pruebas en modo "sandbox" (no involucran dinero real).
-> Además, para que la integración de Mercado Pago funcione correctamente en producción, es necesario contar con un dominio real con HTTPS habilitado, ya que Mercado Pago requiere un sitio accesible públicamente y seguro para procesar transacciones. Si no cuentas con un dominio, puedes utilizar el entorno de pruebas "sandbox" para hacer simulaciones sin involucrar dinero real.
+> Además, para que la integración de Mercado Pago funcione correctamente en producción, es necesario contar con un dominio real con HTTPS habilitado, ya que Mercado Pago requiere un sitio accesible públicamente y seguro para procesar transacciones. Sin embargo, para realizar pruebas en el entorno de desarrollo, puedes utilizar ngrok para exponer tu servidor local a un dominio temporal con HTTPS, lo que permite simular el entorno de producción sin necesidad de un dominio real.
 
 > **Admin de testeo:**
 > User: `adminTest`
