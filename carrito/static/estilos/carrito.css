@@ -478,8 +478,16 @@ main{
     justify-content: space-between;
 }
 
-.estado-pedido{
+.estado-entregado{
     color: #4caf50;
+}
+
+.estado-enviado{
+    color: #1976D2;
+}
+
+.estado-pagado{
+    color: #FF8F00 ;
 }
 
 .pedido-lineas{

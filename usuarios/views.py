@@ -147,9 +147,7 @@ def miCuenta(request):
         
         if hasattr(usuario, campo):  # El hasattr sirve para verificar que una variable(usuario) tenga el mismo campo que se pasa en el segundo parametro(campo)
             
-            if(campo == "username"):    
-                # existe_usuario = CustomUser.objects.filter(username=new_valor).exists()
-                
+            if(campo == "username"):                    
                 if not re.match(REGEX["username_contiene_al_menos_una_letra"], new_valor):
                     if request.headers.get('x-requested-with') == 'XMLHttpRequest':
                         return JsonResponse({'success': False, 'error': "Tu nombre de usuario debe contener por lo menos una letra."})    

@@ -24,12 +24,22 @@
                     <div class="pedido-header" >
                         <div>
                             <strong>Pedido #{{ pedido.id }}</strong> - 
-                            Estado: <strong class="estado-pedido">{{ pedido.estado|capfirst }}</strong> -
-                            {% if pedido.estado == "pagado" and pedido.metodo_envio == "envio_estandar" %} Entregar en: {{pedido.direccion_envio.getDireccion}} {% endif %}
-                            {% if pedido.estado == "enviado" and pedido.metodo_envio == "envio_estandar" %} En envío hacia: {{pedido.direccion_envio.getDireccion}} {% endif %}
-                            {% if pedido.estado == "entregado" and pedido.metodo_envio == "envio_estandar" %} Entregado en: {{pedido.direccion_envio.getDireccion}} {% endif %}
-                            {% if pedido.estado == "pagado" and pedido.metodo_envio == "retira_tienda" %} Retirar en el local: {{pedido.retiro_local.getLocalRetiro}} {% endif %}
-                            {% if pedido.estado == "entregado" and pedido.metodo_envio == "retira_tienda" %} Retirado en el local: {{pedido.retiro_local.getLocalRetiro}} {% endif %}
+                            
+                            {% if pedido.estado == "pagado" and pedido.metodo_envio == "envio_estandar" %}
+                                Estado: <strong class="estado-pagado">{{ pedido.estado|capfirst }}</strong> -
+                                Entregar en: {{pedido.direccion_envio.getDireccion}} {% endif %}
+                            {% if pedido.estado == "enviado" and pedido.metodo_envio == "envio_estandar" %}
+                                Estado: <strong class="estado-enviado">{{ pedido.estado|capfirst }}</strong> -
+                                En envío hacia: {{pedido.direccion_envio.getDireccion}} {% endif %}
+                            {% if pedido.estado == "entregado" and pedido.metodo_envio == "envio_estandar" %}
+                                Estado: <strong class="estado-entregado">{{ pedido.estado|capfirst }}</strong> -
+                                Entregado en: {{pedido.direccion_envio.getDireccion}} {% endif %}
+                            {% if pedido.estado == "pagado" and pedido.metodo_envio == "retira_tienda" %}
+                                Estado: <strong class="estado-pagado">{{ pedido.estado|capfirst }}</strong> -
+                                Retirar en el local: {{pedido.retiro_local.getLocalRetiro}} {% endif %}
+                            {% if pedido.estado == "entregado" and pedido.metodo_envio == "retira_tienda" %}
+                                Estado: <strong class="estado-entregado">{{ pedido.estado|capfirst }}</strong> -
+                                Retirado en el local: {{pedido.retiro_local.getLocalRetiro}} {% endif %}
                             - Total: ${{ pedido.total|punto_miles }}
                         </div>
                         <div>

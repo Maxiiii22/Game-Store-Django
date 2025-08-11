@@ -104,23 +104,23 @@ DATABASES = {
 }
 
 # Configuración para envío de correos reales (ejemplo con Gmail):
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'   # Con esto, el contenido del email se imprime en la consola, pero no se envía.
-#EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'  # Si queremos que se envie ponemos este, ademas de agregar un email real.
-EMAIL_HOST = 'smtp.gmail.com'  # o el servidor SMTP de tu proveedor
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'tucorreo@gmail.com'
-EMAIL_HOST_PASSWORD = 'tu_contraseña_o_app_password'
-DEFAULT_FROM_EMAIL = 'Game Store <tucorreo@gmail.com>'
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'   # Con esto, el contenido del email se imprime en la consola, pero no se envía.
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'  # Si queremos que se envie ponemos este, ademas de agregar un email real.
+EMAIL_HOST = 'smtp.gmail.com'  # Usamos el servidor SMTP de Gmail
+EMAIL_PORT = 587 # El puerto para TLS (StartTLS)
+EMAIL_USE_TLS = True # Habilita TLS (Transport Layer Security) para asegurar la conexión
+EMAIL_HOST_USER = 'tiendagamestore3@gmail.com'
+EMAIL_HOST_PASSWORD = 'dikfksuqhghawegx'  # Contraseña de aplicacion de google. (NO SUBIRLA AL GITHUB)
+DEFAULT_FROM_EMAIL = 'Game Store <tiendagamestore3@gmail.com>'
 
 
-# MercadoPago Config 
-MERCADOPAGO_ACCESS_TOKEN = 'APP_USR-1472881132347913-062416-9ae621909862dbae04da8b8bf27403c2-462583124'
-MERCADOPAGO_PUBLIC_KEY = 'APP_USR-f3fd1320-3b03-4250-aa37-c781102034e0'
+# MercadoPago Config DE MI CUENTA:
+# MERCADOPAGO_ACCESS_TOKEN = 'APP_USR-1472881132347913-062416-9ae621909862dbae04da8b8bf27403c2-462583124'  # (NO SUBIR AL GITHUB )
+# MERCADOPAGO_PUBLIC_KEY = 'APP_USR-f3fd1320-3b03-4250-aa37-c781102034e0'  #(ESTE SE PUEDE SUBIR, PERO NO LO SUBAS IGUAL)
 
 # MercadoPago Config de TESTEO :
-# MERCADOPAGO_ACCESS_TOKEN = 'APP_USR-7932180229049713-062714-469af90edbec483132cacccdc14a2273-2515054879'
-# MERCADOPAGO_PUBLIC_KEY = 'APP_USR-f67c0a27-fd6b-46da-b0f1-f6517627f21f'
+MERCADOPAGO_ACCESS_TOKEN = 'APP_USR-7932180229049713-062714-469af90edbec483132cacccdc14a2273-2515054879'
+MERCADOPAGO_PUBLIC_KEY = 'APP_USR-f67c0a27-fd6b-46da-b0f1-f6517627f21f'
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators

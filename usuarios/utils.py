@@ -43,6 +43,7 @@ def enviar_email_bienvenida(user):
 
     msg = EmailMultiAlternatives(asunto, text_content, from_email, [to])  # Crea el mensaje de email con ambas versiones: texto plano y HTML
     msg.attach_alternative(html_content, "text/html")  # Adjunta la versión HTML como alternativa (para que los clientes de correo que soportan HTML la usen)
+    
     msg.send() # envia el email
 
 
