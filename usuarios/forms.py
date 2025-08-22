@@ -1,16 +1,16 @@
-from django import forms  # Esta clase nos permite crear un Formulario en base de una Tabla/modelo
+from django import forms  
 from .models import CustomUser
 from django.contrib.auth.forms import AuthenticationForm
-from django.core.validators import RegexValidator  # Para permitir símbolos comunes en el campo de teléfono.
+from django.core.validators import RegexValidator 
 from django.core.exceptions import ValidationError
 from datetime import date
-import re  # importando el módulo re de Python, que nos permite trabajar con expresiones regulares.
+import re  
 from django.contrib.auth import authenticate 
 
 
 
 
-class CustomAuthenticationForm(AuthenticationForm):   # Personalizamos el AuthenticationForm para poder agregarle clases a los inputs
+class CustomAuthenticationForm(AuthenticationForm):  
     username = forms.CharField(max_length=20, widget=forms.TextInput(attrs={'autofocus': 'autofocus','class': 'form-box-input','placeholder': 'Nombre de usuario'}))
     password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-box-input','placeholder': 'Contraseña'}))
 
@@ -27,7 +27,7 @@ class CustomAuthenticationForm(AuthenticationForm):   # Personalizamos el Authen
         password = self.cleaned_data.get('password')
 
         if username and password:
-            user = authenticate(self.request, username=username, password=password)  #Esta funcion verifica las credenciales del usuario en la BD asociada al proyecto Django, específicamente en una tabla llamada CustomUser. Este proceso se lleva a cabo mediante el sistema de autenticación que Django ya tiene integrado.Si las credenciales del usuario son correctas, authenticate devolverá una instancia del modelo User que representa al usuario autenticado y Si las credenciales son incorrectas, authenticate devolverá None.
+            user = authenticate(self.request, username=username, password=password)  
             if user is None:
                 raise ValidationError("La contraseña no coincide con el usuario.")
             self.user_cache = user
@@ -41,18 +41,14 @@ solo_letras_validator = RegexValidator(
     code='invalid_letters'
 )
 
-# Creamos un form para los campos del modelo/tabla CustomUser :
 class CustomUserForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        # Agregar la opción por defecto al principio y filtrar las opciones ya existentes
         default_choice = ('', '-- Selecciona un código --')
         current_choices = list(self.fields['cod_area'].choices)
         
-        # Filtramos cualquier opción vacía (como la opción por defecto ya agregada)
         self.fields['cod_area'].choices = [default_choice] + [choice for choice in current_choices if choice[0] != '']
         
-        # Establecer la opción vacía como seleccionada por defecto
         self.fields['cod_area'].initial = ''
     
     telefono = forms.CharField(
@@ -94,8 +90,8 @@ class CustomUserForm(forms.ModelForm):
 
     
     class Meta:
-        model = CustomUser  # Este formulario esta basado sobre el modelo "CustomUser"
-        fields = [ # Acá ingresamos los campos que queremos que se muestren en el formulario.
+        model = CustomUser
+        fields = [
             'username', 'email', 'password', 'first_name', 'last_name',  
             'telefono', 'fecha_nacimiento', 'cod_area'
         ]
@@ -104,7 +100,7 @@ class CustomUserForm(forms.ModelForm):
             "email" : forms.EmailInput(attrs={'class': "form-box-input input-signup",'required':"", 'placeholder':"Ej. roberto45@gmail.com"}),
             'password': forms.PasswordInput(attrs={'class': 'form-box-input input-signup', 'placeholder':"Contraseña", 'required':""}),
             "fecha_nacimiento" : forms.DateInput(attrs={'class': "form-box-input input-signup",'placeholder': 'DD/MM/YYYY','type': 'date', 'required':""}) ,  
-            "cod_area" : forms.Select(attrs={'class': "form-box-input input-signup", 'required':"", 'onchange': 'cambiarCodigo()',})  # 'onchange': 'cambiarCodigo()'  // Le agregamos un evento de JS
+            "cod_area" : forms.Select(attrs={'class': "form-box-input input-signup", 'required':"", 'onchange': 'cambiarCodigo()',})  
         }
     
     
@@ -168,8 +164,8 @@ class FormEditarUsuario(forms.ModelForm):
 
     
     class Meta:
-        model = CustomUser  # Este formulario esta basado sobre el modelo "CustomUser"
-        fields = [ # Acá ingresamos los campos que queremos que se muestren en el formulario.
+        model = CustomUser 
+        fields = [ 
             'cod_area'
         ]
         widgets = {
