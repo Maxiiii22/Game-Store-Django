@@ -32,16 +32,13 @@ DEBUG = True
 ALLOWED_HOSTS = [
     'localhost', 
     '127.0.0.1', 
-    'c88a-200-85-189-33.ngrok-free.app'  # Dominio de ngrok
+    'c88a-200-85-189-33.ngrok-free.app'  # Tu dominio de ngrok
 ]
 
-# Cuando usamos el dominio de ngrok y enviamos un formulario que contiene el "csrf_token" no va a devolver un error , para eso ponemos lo siguiente :
+# Cuando usamos el dominio de ngrok y enviamos un formulario que contiene el "csrf_token" nos va a devolver un error , para eso ponemos lo siguiente :
 CSRF_TRUSTED_ORIGINS = [  
-    "https://c88a-200-85-189-33.ngrok-free.app",
+    "https://c88a-200-85-189-33.ngrok-free.app", #Tu URL generada por ngrok
 ]
-# Ese error se debe a que Django no confía en el origen (Origin) de la solicitud, que en este caso es tu URL de ngrok (https://6721-200-85-189-33.ngrok-free.app). Aunque hayas agregado esa URL en ALLOWED_HOSTS, también necesitás agregarla a la configuración de CSRF.
-
-# Como uso ngrok : abro el ngrok.exe y corro ngrok http 8000 (8000 o el puerto donde este trabajando cuando hago el runserver)
 
 # Application definition
 
@@ -75,16 +72,16 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-                BASE_DIR / 'templates_globales',  # Si tienes templates globales (opcional)
+                BASE_DIR / 'templates_globales',  
             ],
-        'APP_DIRS': True, # APP_DIRS = True le indica a Django que busque templates dentro de una carpeta llamada templates en cada aplicación.
+        'APP_DIRS': True, 
         'OPTIONS': {
-            'context_processors': [   # context_processors : Es simplemente una función que recibe el request y devuelve un diccionario de variables que se inyectan automáticamente en cada contexto de plantilla.
+            'context_processors': [   
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'carrito.context_processors.cant_productos_en_carrito', # Esto es la ruta completa a la función cant_productos_en_carrito dentro del proyecto, esto nos permite mostrar la cantiadad de productos que tiene el usuario en su carrito.              
+                'carrito.context_processors.cant_productos_en_carrito', 
             ],
         },
     },
@@ -104,23 +101,19 @@ DATABASES = {
 }
 
 # Configuración para envío de correos reales (ejemplo con Gmail):
-# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'   # Con esto, el contenido del email se imprime en la consola, pero no se envía.
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'  # Si queremos que se envie ponemos este, ademas de agregar un email real.
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'   # Con esto, el contenido del email se imprime en la consola, pero no se envía.
+#EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'  # Si queremos que se envie ponemos este, ademas de agregar un email real.
 EMAIL_HOST = 'smtp.gmail.com'  # Usamos el servidor SMTP de Gmail
 EMAIL_PORT = 587 # El puerto para TLS (StartTLS)
 EMAIL_USE_TLS = True # Habilita TLS (Transport Layer Security) para asegurar la conexión
-EMAIL_HOST_USER = 'tiendagamestore3@gmail.com'
-EMAIL_HOST_PASSWORD = 'dikfksuqhghawegx'  # Contraseña de aplicacion de google. (NO SUBIRLA AL GITHUB)
+EMAIL_HOST_USER = 'tiendagamestore3@gmail.com' # Aca pone algun email
+EMAIL_HOST_PASSWORD = ''  # Contraseña de ese email
 DEFAULT_FROM_EMAIL = 'Game Store <tiendagamestore3@gmail.com>'
 
 
-# MercadoPago Config DE MI CUENTA:
-# MERCADOPAGO_ACCESS_TOKEN = 'APP_USR-1472881132347913-062416-9ae621909862dbae04da8b8bf27403c2-462583124'  # (NO SUBIR AL GITHUB )
-# MERCADOPAGO_PUBLIC_KEY = 'APP_USR-f3fd1320-3b03-4250-aa37-c781102034e0'  #(ESTE SE PUEDE SUBIR, PERO NO LO SUBAS IGUAL)
-
 # MercadoPago Config de TESTEO :
-MERCADOPAGO_ACCESS_TOKEN = 'APP_USR-7932180229049713-062714-469af90edbec483132cacccdc14a2273-2515054879'
-MERCADOPAGO_PUBLIC_KEY = 'APP_USR-f67c0a27-fd6b-46da-b0f1-f6517627f21f'
+MERCADOPAGO_ACCESS_TOKEN = '' # Aca deberia ir tu ACCESS_TOKEN real o uno de testo creado por vos
+MERCADOPAGO_PUBLIC_KEY = '' # Y aca lo mismo pero con la PUBLIC_KEY
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
@@ -144,7 +137,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
 
-LANGUAGE_CODE = 'es' # Al ponerlo en español , django ya traduce validaciones,etc automaticamente al español. ( Hay que agregar a los middleware esto : 'django.middleware.locale.LocaleMiddleware',)
+LANGUAGE_CODE = 'es'
 
 # TIME_ZONE = 'UTC'
 TIME_ZONE = 'America/Argentina/Buenos_Aires'
@@ -164,14 +157,13 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static_global'),  # Carpeta estática global
 ]
 
-AUTH_USER_MODEL = 'usuarios.CustomUser'   # Tabla/modelo dondes se guardaran los usuarios. La configuración AUTH_USER_MODEL le dice a Django que utilice un modelo de usuario personalizado en lugar del modelo predeterminado "User".
+AUTH_USER_MODEL = 'usuarios.CustomUser'   
 
 
 # Configuración para los archivos de medios
-MEDIA_URL = '/media/'  # URL que usará el navegador para acceder a los archivos de medios
+MEDIA_URL = '/media/'  
 
-# Agregamos esto para que el login_required funcione correctamente :
-LOGIN_URL = 'login'  # Definimos LOGIN_URL con la ruta asociada a "login" , para que cuando alguien quiera acceder a una ruta/vista en la que se requiere previamente estar logueado , te envie a la ruta/vista de "Iniciar Sesion".
+LOGIN_URL = 'login'  
 
 
 # Directorio físico donde se guardarán los archivos de medios (especificamos la carpeta 'media')
