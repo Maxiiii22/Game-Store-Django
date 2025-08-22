@@ -4,13 +4,11 @@ from django.shortcuts import render
 from django.http import  JsonResponse
 from django.shortcuts import redirect
 from usuarios.models import CustomUser 
-from .forms import CustomUserForm,CustomAuthenticationForm,FormEditarUsuario  # Importamos los 3 formularios personalizados por nosotros.
+from .forms import CustomUserForm,CustomAuthenticationForm,FormEditarUsuario 
 from carrito.models import Carrito
 from django.contrib.auth import authenticate 
-from django.contrib.auth import login # importamos la función login del módulo django.contrib.auth. Que se utiliza para autenticar a un usuario en una aplicación web, es decir, marca al usuario como autenticado y lo "logea" en el sistema. Esto significa que después de llamar a esta función, Django almacenará la información del usuario en la sesión, lo que le permitirá al usuario acceder a áreas de la aplicación que requieren estar autenticado.
-from django.contrib.auth import logout # importamos la función logout del módulo django.contrib.auth. Que se utiliza para cerrar sesion a un usuario.
-from django.contrib.auth import update_session_auth_hash
-from django.contrib.auth.decorators import login_required  # Importamas el login_required que nos permite no poder acceder a rutas que necesitan que previamente estemos logueados. (No olvidarse de agregar la ruta login en settings.py)
+from django.contrib.auth import login,logout ,update_session_auth_hash
+from django.contrib.auth.decorators import login_required  
 
 
 from django.contrib import messages
@@ -52,8 +50,8 @@ def iniciar_sesion(request):
         form = CustomAuthenticationForm(request, data=request.POST)
         if form.is_valid():
             usuario = form.get_user()
-            login(request, usuario) # Lo autentifica y lo mantiene logueado en la SESSION.   Esta función: Asocia al usuario autenticado con la sesión actual y Crea una cookie en el navegador del usuario para mantener la sesión activa.
-            Carrito.objects.get_or_create(usuario=usuario) # Crear carrito al registrar al usuario            
+            login(request, usuario) 
+            Carrito.objects.get_or_create(usuario=usuario) 
             return redirect("inicio")
     else:
         form = CustomAuthenticationForm()
@@ -61,7 +59,7 @@ def iniciar_sesion(request):
     return render(request, "login.html", {"form": form})
 
 
-@login_required  # Añadimos el login_required , ya que esta funcion solo puede ser ejecutada por personas previamente logueadas.
+@login_required  
 def miCuenta(request):
     if request.method == "GET":
         if request.headers.get('x-requested-with') == 'XMLHttpRequest':
@@ -145,7 +143,7 @@ def miCuenta(request):
         
         print(f"Campo: {campo} , Nuevo valor: {new_valor}, Nuevo password: {new_password}")
         
-        if hasattr(usuario, campo):  # El hasattr sirve para verificar que una variable(usuario) tenga el mismo campo que se pasa en el segundo parametro(campo)
+        if hasattr(usuario, campo):  
             
             if(campo == "username"):                    
                 if not re.match(REGEX["username_contiene_al_menos_una_letra"], new_valor):
@@ -192,10 +190,10 @@ def miCuenta(request):
                         "error_new_password": True
                     })
                 
-                if usuario.check_password(new_valor):  # Compara la contraseña actual del usuario con la contraseña que pasamos en el form 
-                    usuario.set_password(new_password)  # Hashea y asigna la nueva contraseña .  Cuando cambias la contraseña de un usuario (por ejemplo con user.set_password(...)), Django invalida la sesión actual por seguridad.
-                    update_session_auth_hash(request, usuario)  #  La funcion "update_session_auth_hash" se usa después de cambiar la contraseña de un usuario, para que no se cierre su sesión actual automáticamente.
-                    cerrar_otras_sesiones(request)  # Funcion creada para cerrar cualquier otra session del usuario en otros dispositivos,navegadores,etc.
+                if usuario.check_password(new_valor): 
+                    usuario.set_password(new_password)  
+                    update_session_auth_hash(request, usuario) 
+                    cerrar_otras_sesiones(request)  
                     print("Campo contraseña actualizado correctamente.")
                 else:
                     if request.headers.get('x-requested-with') == 'XMLHttpRequest':
@@ -259,7 +257,7 @@ def miCuenta(request):
                         "campo_valor": new_valor,  
                         "opciones_cod_area": CustomUser.CODIGOS_AREA
                     })
-                setattr(usuario, campo, new_valor) # Y el se setattr se utiliza para asignar el valor al campo del usuario de manera dinámica, según el nombre del campo.
+                setattr(usuario, campo, new_valor)
                 print(f"Se actualizo el campo area: {campo}")
             
         else:
@@ -270,7 +268,7 @@ def miCuenta(request):
     return redirect('cuenta')
 
 
-@login_required  # Añadimos el login_required , ya que esta funcion solo puede ser ejecutada por personas previamente logueadas.
+@login_required
 def cerrar_sesion(request):
     logout(request)
     return redirect("inicio") 
