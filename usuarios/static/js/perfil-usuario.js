@@ -245,14 +245,6 @@ window.addEventListener("click", (e) => {
 });
 
 
-/**
- * Valida un campo mediante una consulta AJAX GET.
- * @param {string} url - La URL a la que se hace la consulta, con parámetros GET.
- * @param {HTMLElement} feedbackElement - Elemento donde mostrar mensajes de error.
- * @param {string} mensajeErrorDefault - Mensaje a mostrar si no hay mensaje del backend.
- * @param {function} onSuccess - Callback a ejecutar si la validación es exitosa.
- * @param {function} [onError] - Callback opcional si la validación falla.
- */
 function validarCampoAjax(url, feedbackElement, mensajeErrorDefault, onSuccess, onError) {
     const inputModal = document.getElementById("input_modal");
     fetch(url, {
@@ -271,7 +263,7 @@ function validarCampoAjax(url, feedbackElement, mensajeErrorDefault, onSuccess, 
         }
     })
     .catch(() => {
-        feedbackElement.textContent = "⚠️ Error de conexión al validar.";
+        feedbackElement.textContent = "Error de conexión al validar.";
         feedbackElement.style.color = "orange";
         if (onError) onError();
     });
