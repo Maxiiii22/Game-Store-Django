@@ -4,9 +4,8 @@ from usuarios.models import CustomUser
 # Create your models here.
 
 # -----------------------------------------------------------
-# ContentType y GenericForeignKey se utilizan para implementar relaciones genéricas en modelos, es decir, para que un modelo pueda estar relacionado con cualquier otro modelo en tu proyecto Django.
-from django.contrib.contenttypes.models import ContentType  # ContentType es un modelo interno de Django que representa todos los modelos instalados en tu proyecto.
-from django.contrib.contenttypes.fields import GenericForeignKey # GenericForeignKey permite que un campo apunte a cualquier instancia de cualquier modelo.
+from django.contrib.contenttypes.models import ContentType  
+from django.contrib.contenttypes.fields import GenericForeignKey
 
 
 class DireccionEnvio(models.Model):
@@ -80,24 +79,11 @@ class Carrito(models.Model):
 class LineaCarrito(models.Model):
     carrito = models.ForeignKey('Carrito', on_delete=models.CASCADE, related_name='lineas')
 
-# ---- Esto crea una relación dinámica: la línea del carrito puede apuntar a cualquier modelo (Juegos, Consolas, etc.).  ------
-    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)  # Este campo guarda el tipo de modelo relacionado (por ejemplo, Juego, Consola, etc.). ContentType es un modelo especial de Django que referencia a todos los modelos registrados.
-    object_id = models.PositiveIntegerField()  # object_id guarda el mismo ID que tiene la instancia original del modelo referenciado, ya sea un Juego, una Consola, o cualquier otro modelo al que estés apuntando.
-    producto = GenericForeignKey('content_type', 'object_id')  # Une content_type y object_id para crear un campo virtual llamado producto. Con producto puedes acceder directamente al objeto relacionado (como un Juego o Consola), sin importar su tipo de modelo.
+    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE) 
+    object_id = models.PositiveIntegerField()  
+    producto = GenericForeignKey('content_type', 'object_id')  
     
-    # Cuando Django usa el GenericForeignKey, primero usa content_type para saber a qué tabla mirar (ejemplo: tabla juego o tabla consola) y luego busca la fila con id=object_id en esa tabla.
-    #EJEMPLO:
-        #content_type	object_id
-        #Juego (id=1)	   5
-        #Consola (id=2)	   5
-    # En resumen: El par (content_type, object_id) es la “clave primaria” que identifica el objeto único, no solo el object_id por separado.
-    #Recapitulando:
-    # -content_type indica a qué modelo pertenece ese ID (por ejemplo, Juego o Consola).
-    # -object_id indica la instancia específica de ese modelo.
-    # -GenericForeignKey junta ambos para poder acceder al objeto completo con producto.
-    
-    # Así, LineaCarrito sabe exactamente a qué producto se refiere sin importar su tipo/MODELO, usando esa combinación de content_type + object_id.
-# ------------------------------------------------------------------------------
+
 
     cantidad = models.PositiveIntegerField(default=1)
 
