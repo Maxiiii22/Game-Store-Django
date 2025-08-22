@@ -58,7 +58,7 @@
                     <a href="{% url 'login' %}" class="navbar-btn" id="widget"><i class="fas fa-sign-in-alt"></i>  Iniciar sesión </a> 
                     <a href="{% url 'signup' %}" class="navbar-btn" id="widget"><i class="fas fa-user-plus"></i> Registrarse </a>
                 {% else %}
-                    <a href="{% url 'miCarrito' %}" class="btn_carrito"><i class="fas fa-shopping-cart"></i> <span id="carrito-count">{{carrito_count}}</span> </a>  <!-- carrito_count es ua variable global declarada en carrito/context_processors.py-->
+                    <a href="{% url 'miCarrito' %}" class="btn_carrito"><i class="fas fa-shopping-cart"></i> <span id="carrito-count">{{carrito_count}}</span> </a> 
                     <ul id="widget" >
                         <li class="btn-desplegable"><button class="navbar-btn navbar-btn-user" id="btn-miCuenta"> <i class="fas fa-user"></i> {{user.username}} </button> 
                             <ul class="btn-desplegable_items">
