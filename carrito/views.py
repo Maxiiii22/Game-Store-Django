@@ -2,7 +2,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.contenttypes.models import ContentType
 from django.http import JsonResponse
 from django.shortcuts import  render
-from django.views.decorators.http import require_POST # Este decorador permite que una vista solo se pueda ejecutar si la petición HTTP es de tipo POST. Si alguien intenta acceder a esa vista con otro método (como GET, PUT, etc.), Django devolverá automáticamente un error HTTP 405 (Método no permitido).
+from django.views.decorators.http import require_POST 
 from .models import Carrito, LineaCarrito, Pedido, LineaPedido, DireccionEnvio, Tiendas, ReservaStock
 from .forms import DireccionEnvioForm, TiendasForms
 from django.contrib.auth.decorators import login_required
@@ -22,12 +22,10 @@ def obtener_carrito(request):
     usuario = request.user
 
     if usuario.is_authenticated:
-        # Si el usuario está autenticado, obtenemos o creamos su carrito
         carrito, _ = Carrito.objects.get_or_create(usuario=usuario)
         request.session['carrito_id'] = carrito.id  # Opcional
         return carrito
 
-    # Si el usuario NO está autenticado, no se hace nada
     return None
 
 
@@ -170,9 +168,8 @@ def confirmar_compra(request):
             form = DireccionEnvioForm(request.POST)
             
             if form.is_valid():
-                # Guardamos la dirección de envío
                 direccion_envio = form.cleaned_data
-                request.session['direccion_envio'] = direccion_envio  # Guardar en la sesión
+                request.session['direccion_envio'] = direccion_envio  
                 
             else:
                 return JsonResponse({"errorDireccion": "Error en el form de direccion de envio."},status=400)
@@ -252,21 +249,21 @@ def confirmar_compra(request):
             
         # Agrega los productos del carrito a la preferencia de pago
         for lineaCarrito in carrito.lineas.all():
-            items.append({   # Los nombres de los campos como "title", "quantity", y "unit_price" son obligatorios y deben seguir ese formato, ya que son los que Mercado Pago espera para procesar la preferencia de pago.
-                "title": lineaCarrito.producto.nombre,  # Nombre del producto
-                "quantity": lineaCarrito.cantidad,  # Cantidad
-                "unit_price": lineaCarrito.producto.precio,  # Precio por unidad
+            items.append({   
+                "title": lineaCarrito.producto.nombre,  
+                "quantity": lineaCarrito.cantidad,  
+                "unit_price": lineaCarrito.producto.precio,  
                 "currency_id": "ARS",  # Define que los precios están expresados en pesos argentinos
             })
 
         # Datos de la preferencia
-        preference_data = {  # preference_data: Es la estructura que MercadoPago espera recibir, incluye la URL de éxito, fallo y pendiente, además de los detalles de los productos.
+        preference_data = {  
             "items": items,
             "back_urls": { # Aqui van las URL de retorno al sitio. Los escenarios posibles son: success, failure y pending .
             "success": "https://c88a-200-85-189-33.ngrok-free.app/carrito/pago/exitoso/",  # success_url: Es la URL a la que se redirige al usuario si el pago se realiza correctamente.
             "failure": "https://c88a-200-85-189-33.ngrok-free.app/carrito/pago/fallido/",  # failure_url: Es la URL a la que se redirige al usuario si el pago falla por alguna razón.
             },
-            "auto_return": "approved",   # Esto hará que se redirija automáticamente al usuario si el pago es exitoso. El tiempo de redireccionamiento será de hasta 40 segundos y no podrá ser personalizado. Por defecto, también se mostrará un botón de "Volver al sitio".
+            "auto_return": "approved",  
             "payment_methods": {
                 "excluded_payment_types": [
                     {"id": "ticket"},  # Excluye pago en efectivo (Rapipago, PagoFacil)
@@ -276,18 +273,14 @@ def confirmar_compra(request):
         }
 
         try:
-            # Crear la preferencia
             preference = mp.preference().create(preference_data)
-            # print("Respuesta de MercadoPago:", preference)  # Depuración
 
-            # Verifica si la respuesta contiene 'id'
             if 'response' in preference and 'id' in preference['response']:
                 preference_id = preference['response']['id']
                 return JsonResponse({"preference_id": preference_id})
             else:
                 return JsonResponse({"error": "No se pudo obtener el preference_id de MercadoPago"}, status=500)
         except Exception as e:
-            # Si ocurre un error, devolvemos el mensaje de error
             error_message = str(e)
             return JsonResponse({"error": error_message}, status=500)
 
@@ -297,8 +290,6 @@ def confirmar_compra(request):
 
 
 def pago_exitoso(request):
-    print("entre a pago exitoso")
-    # MercadoPago enviará los parámetros en la URL después del pago
     # Verificar si el pago fue aprobado
     payment_id = request.GET.get("payment_id")
     collection_status = request.GET.get("collection_status")
