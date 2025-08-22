@@ -85,9 +85,8 @@
         </div>
     </div>
 
-    {% if abrir_modal %}  <!-- Si alguien pasa la validacion GET y se envia el form , el backend detecta el error , renderiza el error y abre el modal automaticamente al recargarse la pagina-->
-    {{ opciones_cod_area|json_script:"codAreaOpciones" }} <!-- json_script es un metodo que Convierte un objeto Python (lista, diccionario, etc.) en una cadena JSON válida
-                                                                y la inserta en un <script type="application/json">, que no se ejecuta pero puede ser leído con JavaScript.-->
+    {% if abrir_modal %}  
+    {{ opciones_cod_area|json_script:"codAreaOpciones" }}
     <script>
         window.modalData = {
             campo_modal: "{{ campo_modal }}",
