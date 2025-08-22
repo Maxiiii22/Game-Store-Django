@@ -1,5 +1,5 @@
 from .models import Consolas,Juegos,Celulares,RelojInteligentes,AccesoriosPC, Modelo
-from django.shortcuts import get_object_or_404, redirect  # Importamos la funcion get_object_or_404() que devuelve una pagina 404
+from django.shortcuts import get_object_or_404, redirect  
 from django.http import Http404
 from django.shortcuts import render
 from django.db.models import Q # Importamos Q para realizar consultas complejas.
@@ -13,13 +13,12 @@ from django.http import JsonResponse
 
 
 def index(request):    
-    ultimos_relojes = RelojInteligentes.objects.all().order_by('-id')[:4]  # Trae solo los últimos 4 relojes que se añadieron a la tabla RelojesInteligentes.
+    ultimos_relojes = RelojInteligentes.objects.all().order_by('-id')[:4]  
     
-    all_juegos = list(Juegos.objects.all()) # Guadamos en una lista todos los videojuegos.
-    juegos_random = random.sample(all_juegos, 10) # Para obtener varios registros aleatorios, por ejemplo, 10 registros
+    all_juegos = list(Juegos.objects.all()) 
+    juegos_random = random.sample(all_juegos, 10) 
     
-    all_relojes = list(RelojInteligentes.objects.all()) # Guadamos en una lista todos los relojes.
-    # relojes_random = RelojInteligentes.objects.order_by('?')[:3]    # Tambien podemos usar esta forma , pero si tenemos una BD con muchos registros no es recomendable.  
+    all_relojes = list(RelojInteligentes.objects.all())
     
     all_celulares = list(Celulares.objects.all())
     celulares_random = random.sample(all_celulares, 10) 
@@ -27,14 +26,14 @@ def index(request):
     
     all_accesoriosPC = list(AccesoriosPC.objects.all())
     
-    c = list(Consolas.objects.order_by('?')[:2])  # Obtenermos 2 registros randoms 
+    c = list(Consolas.objects.order_by('?')[:2])  
     r = random.sample(all_relojes, 1)
     a = random.sample(all_accesoriosPC,1)
     ce = random.sample(all_celulares, 1) 
     
     productos = []
     if c:
-        productos.extend(c) # Agregamos los 2 registros que obtuvimos de Consolas
+        productos.extend(c) 
     if a:
         productos.append(a[0])
     if r:
@@ -51,21 +50,21 @@ def index(request):
 def consolas(request):
     consolas_query = Consolas.objects.filter(disponible=True)
     consolas_colores = Consolas.objects.filter(color__isnull=False).values('color').distinct()
-    consolas_marcas = Consolas.objects.filter(modelo__isnull=False).select_related('modelo__marca')  # Obtener todos los modelos relacionados con consolas
+    consolas_marcas = Consolas.objects.filter(modelo__isnull=False).select_related('modelo__marca') 
     
     marcas_unicas = {}
     for consola in consolas_marcas:
         marca = consola.modelo.marca
         if marca not in marcas_unicas:
-            marcas_unicas[marca] = consola.modelo  # Guardamos solo un modelo por marca
+            marcas_unicas[marca] = consola.modelo  
 
-    consolas_marcas = [consola for consola in marcas_unicas.values()]  # Convertimos las marcas únicas en una lista para pasarlas al template
+    consolas_marcas = [consola for consola in marcas_unicas.values()] 
 
     if request.method == "GET":
-        orden = request.GET.get('filtrarPor', 'alfabeticamente-asc')  # Valor por defecto: 'alfabeticamente-asc'
-        color = request.GET.get('filtrarPorColor', '')  # Valor por defecto: no filtrar por color.
-        juegos = request.GET.get('filtrarPorJuegos', '')  # Valor por defecto: No juegos incluidos.
-        marca_id = request.GET.get('marca', None) # Filtrar por la marca seleccionada.
+        orden = request.GET.get('filtrarPor', 'alfabeticamente-asc') 
+        color = request.GET.get('filtrarPorColor', '') 
+        juegos = request.GET.get('filtrarPorJuegos', '')  
+        marca_id = request.GET.get('marca', None)
 
 
         if color:
@@ -100,13 +99,11 @@ def videojuegos(request):
 
     plataformas = {}
 
-    # Iterar sobre los juegos para almacenar solo una plataforma por juego
     for juego in juegos_consolas:
         plataforma = juego.plataforma
         if plataforma not in plataformas:
             plataformas[plataforma] = plataforma  
 
-    # Convertimos las plataformas únicas en una lista para pasarlas al template
     plataformas_unicas = [plataforma for plataforma in plataformas.values()]  
     
     juegos_generos = Juegos.objects.filter(generos__isnull=False).prefetch_related('generos')  # Usamos prefetch_related
@@ -114,7 +111,7 @@ def videojuegos(request):
     generos = {}
 
     for juego in juegos_generos:
-        for genero in juego.generos.all():  # Ya que generos es una relación M2M, necesitamos iterar sobre los géneros
+        for genero in juego.generos.all():  
             if genero not in generos:
                 generos[genero] = genero  
 
@@ -122,9 +119,9 @@ def videojuegos(request):
 
 
     if request.method == "GET":
-        orden = request.GET.get('filtrarPor', 'alfabeticamente-asc')  # Valor por defecto: 'alfabeticamente-asc'
-        consola = request.GET.get('filtrarPorConsolas', '')  # Valor por defecto: no filtrar por consolas.
-        genero = request.GET.get('filtrarPorGenero', '')  # Valor por defecto: no filtrar por generos.
+        orden = request.GET.get('filtrarPor', 'alfabeticamente-asc')  
+        consola = request.GET.get('filtrarPorConsolas', '') 
+        genero = request.GET.get('filtrarPorGenero', '')  
 
         if consola:
             juegos_query = juegos_query.filter(plataforma_id=consola)
@@ -149,21 +146,21 @@ def celulares(request):
     celulares_query = Celulares.objects.filter(disponible=True)
     celulares_colores = Celulares.objects.filter(color__isnull=False).values('color').distinct()
     celulares_almacenamiento = Celulares.objects.filter(almacenamiento__isnull=False).values('almacenamiento').distinct()
-    celulares_marcas = Celulares.objects.filter(modelo__isnull=False).select_related('modelo__marca')  # Obtener todos los modelos relacionados con celulares
+    celulares_marcas = Celulares.objects.filter(modelo__isnull=False).select_related('modelo__marca') 
     
     marcas_unicas = {}
     for celular in celulares_marcas:
         marca = celular.modelo.marca
         if marca not in marcas_unicas:
-            marcas_unicas[marca] = celular.modelo  # Guardamos solo un modelo por marca
+            marcas_unicas[marca] = celular.modelo  
 
-    celulares_marcas = [celular for celular in marcas_unicas.values()]  # Convertimos las marcas únicas en una lista para pasarlas al template
+    celulares_marcas = [celular for celular in marcas_unicas.values()]  
 
     if request.method == "GET":
-        orden = request.GET.get('filtrarPor', 'alfabeticamente-asc')  # Valor por defecto: 'alfabeticamente-asc'
-        color = request.GET.get('filtrarPorColor', '')  # Valor por defecto: no filtrar por color.
-        almacenamiento = request.GET.get('filtrarPorAlmacenamiento', '')  # Valor por defecto: No filtrar por almacenamiento.
-        marca_id = request.GET.get('marca', None) # Filtrar por la marca seleccionada.
+        orden = request.GET.get('filtrarPor', 'alfabeticamente-asc')  
+        color = request.GET.get('filtrarPorColor', '')  
+        almacenamiento = request.GET.get('filtrarPorAlmacenamiento', '')  
+        marca_id = request.GET.get('marca', None) 
 
 
         if color:
@@ -196,19 +193,19 @@ def celulares(request):
 
 def relojes(request):
     relojes_query = RelojInteligentes.objects.filter(disponible=True)
-    relojes_marcas = RelojInteligentes.objects.filter(modelo__isnull=False).select_related('modelo__marca')  # Obtener todos los modelos relacionados con relojesInteligentes
+    relojes_marcas = RelojInteligentes.objects.filter(modelo__isnull=False).select_related('modelo__marca')  
     
     marcas_unicas = {}
     for reloj in relojes_marcas:
         marca = reloj.modelo.marca
         if marca not in marcas_unicas:
-            marcas_unicas[marca] = reloj.modelo  # Guardamos solo un modelo por marca
+            marcas_unicas[marca] = reloj.modelo  
 
-    relojes_marcas = [reloj for reloj in marcas_unicas.values()]  # Convertimos las marcas únicas en una lista para pasarlas al template
+    relojes_marcas = [reloj for reloj in marcas_unicas.values()]  
 
     if request.method == "GET":
-        orden = request.GET.get('filtrarPor', 'alfabeticamente-asc')  # Valor por defecto: 'alfabeticamente-asc'
-        marca_id = request.GET.get('marca', None) # Filtrar por la marca seleccionada.
+        orden = request.GET.get('filtrarPor', 'alfabeticamente-asc')
+        marca_id = request.GET.get('marca', None)
         
         if marca_id:
             relojes_query = relojes_query.filter(modelo__marca__id=marca_id)
@@ -229,15 +226,15 @@ def accesoriosPC(request):
     accesoriosPC_query = AccesoriosPC.objects.filter(disponible=True)
     accesoriosPC_colores = AccesoriosPC.objects.filter(color__isnull=False).values('color').distinct()
     accesoriosPC_tipos = AccesoriosPC.objects.filter(tipo__isnull=False).values('tipo').distinct()
-    accesoriosPC_marcas = AccesoriosPC.objects.filter(modelo__isnull=False).select_related('modelo__marca')  # Obtener todos los modelos relacionados con AccesoriosPC
+    accesoriosPC_marcas = AccesoriosPC.objects.filter(modelo__isnull=False).select_related('modelo__marca') 
     
     marcas_unicas = {}
     for accesorio in accesoriosPC_marcas:
         marca = accesorio.modelo.marca
         if marca not in marcas_unicas:
-            marcas_unicas[marca] = accesorio.modelo  # Guardamos solo un modelo por marca
+            marcas_unicas[marca] = accesorio.modelo  
 
-    accesoriosPC_marcas = [accesorio for accesorio in marcas_unicas.values()]  # Convertimos las marcas únicas en una lista para pasarlas al template
+    accesoriosPC_marcas = [accesorio for accesorio in marcas_unicas.values()]  
 
     if request.method == "GET":
         orden = request.GET.get('filtrarPor', 'alfabeticamente-asc')  # Valor por defecto: 'alfabeticamente-asc'
@@ -273,7 +270,6 @@ def accesoriosPC(request):
                 })
 
 
-# Diccionario que mapea el tipo de producto al modelo correspondiente
 MODELOS_PRODUCTOS = {
     'Accesoriospc': AccesoriosPC,
     'Consolas': Consolas,
@@ -307,7 +303,7 @@ def detalle_producto(request, tipo_producto, slug):
 
 
 def buscarProducto(request):
-    consulta = request.GET.get("consulta", "")  # Recibimos la consulta del formulario.
+    consulta = request.GET.get("consulta", "")  
 
     if request.headers.get('x-requested-with') == 'XMLHttpRequest' and consulta:
         try:
@@ -327,9 +323,9 @@ def buscarProducto(request):
             )
 
             sugerencias_nombres = [producto.nombre for producto in sugerencias]
-            return JsonResponse(sugerencias_nombres, safe=False)  # Devolver las sugerencias como JSON
+            return JsonResponse(sugerencias_nombres, safe=False)  
         except Exception as e:
-            return JsonResponse({"error": str(e)}, status=500)  # Si hay un error, devolvemos el mensaje como JSON
+            return JsonResponse({"error": str(e)}, status=500) 
     else:
         if consulta:
             # Realizar consultas separadas para cada modelo.
