@@ -179,7 +179,7 @@ if (window.MERCADOPAGO_PUBLIC_KEY) {
         });
     });
 
-    // 🧹 Función para eliminar el brick de Mercado Pago si existe
+    // Función para eliminar el brick de Mercado Pago si existe
     function removeWalletBrick() {
         const existingContainer = document.getElementById('walletBrick_container');
         if (existingContainer) {
@@ -188,7 +188,7 @@ if (window.MERCADOPAGO_PUBLIC_KEY) {
         desactivarCarga();
     }
 
-    // ⚙️ Función para renderizar el brick
+    //  Función para renderizar el brick
     function renderMercadoPagoBrick(preference_id) {
         const bricksBuilder = mp.bricks();
 
@@ -231,7 +231,7 @@ if (window.MERCADOPAGO_PUBLIC_KEY) {
         renderWalletBrick();
     }
 
-    // 🎯 Escuchar cambios en todos los campos relevantes del formulario
+    // Escuchar cambios en todos los campos relevantes del formulario
     const inputsToWatch = form.querySelectorAll('input, select, textarea');
     inputsToWatch.forEach(input => {
         input.addEventListener('input', () => {
