@@ -27,13 +27,12 @@ function agregarAlCarrito(modelo, id) {
     })
     .then(res => {
         if (res.redirected) {
-            // Si la respuesta fue una redirección (login), redirigimos al usuario
-            window.location.href = res.url;  // Redirige al login o la página indicada
-            return Promise.reject("Redirigido, no continuar");  // Rechazamos la promesa para evitar que pase al catch
+            window.location.href = res.url; 
+            return Promise.reject("Redirigido, no continuar");  
         }
 
         if (res.ok) {
-            return res.json();  // Si es una respuesta válida, la procesamos
+            return res.json();  
         } else {
             return Promise.reject('Error en la solicitud');
         }
@@ -47,10 +46,10 @@ function agregarAlCarrito(modelo, id) {
                 gravity: "top",
                 style: { background: "#4CAF50"},
                 offset: {
-                    x: 10,               // ligero desplazamiento desde el borde derecho
-                    y: 70                // baja un poco para evitar topbars o headers
+                    x: 10,               
+                    y: 70              
                 },
-                stopOnFocus: true        // permite pausar si el usuario pasa el mouse 
+                stopOnFocus: true       
             }).showToast();
         }
         else{
@@ -59,7 +58,6 @@ function agregarAlCarrito(modelo, id) {
     })
     .catch(error => {
         if (error === "Redirigido, no continuar") {
-            // Si la promesa fue rechazada debido a la redirección, no hacemos nada en el catch
             return;
         }
 
