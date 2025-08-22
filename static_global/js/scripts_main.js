@@ -14,20 +14,15 @@ document.addEventListener('DOMContentLoaded', function () {
 
     let currentItem = 0;
 
-    // Función para mover el contenido
     function scrollContent() {
-        // Desplazar el contenido hacia arriba, mostrando el siguiente mensaje
-        contenidoBarra.style.transform = `translateY(-${currentItem * 18}px)`;  // Cada <p> tiene 18px de altura
+        contenidoBarra.style.transform = `translateY(-${currentItem * 18}px)`;  
 
-        // Incrementar el índice para mostrar el siguiente item
-        currentItem = (currentItem + 1) % items.length;  // Regresa al primer ítem después de mostrar todos
+        currentItem = (currentItem + 1) % items.length;  
     }
 
-    // Mostrar el primer mensaje inmediatamente al cargar la página
-    contenidoBarra.style.transform = `translateY(0px)`;  // Empieza en la posición inicial
+    contenidoBarra.style.transform = `translateY(0px)`;  
 
-    // Configuramos que la animación se repita cada 10 segundos
-    setInterval(scrollContent, 5000);  // Desplazar cada 5 segundos
+    setInterval(scrollContent, 5000);  
 
     toggleBtn.addEventListener('click', () => {
         navbar.classList.toggle('active');
@@ -42,14 +37,14 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     barraBusqueda.addEventListener("input", function () {
-        let consulta = this.value;  // Obtener el texto del campo de búsqueda
+        let consulta = this.value;  
 
-        if (consulta.length > 2) {  // Solo hacer la búsqueda si hay más de 2 caracteres
+        if (consulta.length > 2) { 
           fetch(`/busqueda/?consulta=${consulta}`, {
             method: 'GET',
             headers: {
-              'X-Requested-With': 'XMLHttpRequest',  // Aseguramos que el encabezado se envíe
-              'Content-Type': 'application/json',    // Esto es solo para asegurarse de que el servidor lo maneje correctamente
+              'X-Requested-With': 'XMLHttpRequest',  
+              'Content-Type': 'application/json',   
             }
           })
             .then(response => {
@@ -60,29 +55,28 @@ document.addEventListener('DOMContentLoaded', function () {
             })
             .then(data => {
               if (data.error) {
-                console.error(data.error);  // Si el servidor devuelve un error, lo mostramos
+                console.error(data.error); 
                 return;
               }
       
-              listaSugerencias.innerHTML = '';  // Limpiar las sugerencias anteriores
+              listaSugerencias.innerHTML = '';  
       
               data.forEach(sugerencia => {
                 let li = document.createElement('li');
                 li.textContent = sugerencia;
-                // Agregar un evento click a cada sugerencia
                 li.addEventListener('click', function () {
-                    barraBusqueda.value = sugerencia;  // Coloca el valor en el input
-                    listaSugerencias.innerHTML = '';  // Limpiar las sugerencias después de seleccionar una
+                    barraBusqueda.value = sugerencia; 
+                    listaSugerencias.innerHTML = '';  
                     formBusqueda.submit();
                 });                
-                listaSugerencias.appendChild(li);  // Agregar la sugerencia como un <li>
+                listaSugerencias.appendChild(li);  
               });
             })
             .catch(error => {
               console.error('Hubo un problema con la solicitud:', error);
             });
         } else {
-            listaSugerencias.innerHTML = '';  // Limpiar las sugerencias si no hay texto
+            listaSugerencias.innerHTML = '';  
         }  
     });
 
